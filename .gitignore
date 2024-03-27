@@ -1,6 +1,8 @@
 src/P1/Spring2022_HITCS_SC_Lab1/
 src/P2/Spring2022_HITCS_SC_Lab1/
 
+out/
+
 # Compiled class file
 *.class
 
