@@ -1,3 +1,6 @@
+src/P1/Spring2022_HITCS_SC_Lab1/
+src/P2/Spring2022_HITCS_SC_Lab1/
+
 # Compiled class file
 *.class
 
@@ -22,3 +25,9 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# IDE Created files
+.idea/
+
+# Git repo
+.git/
