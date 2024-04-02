@@ -3,12 +3,15 @@ package P1;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class MagicSquare {
   public static void main(String[] args) {
+    System.out.println("Part 1, Testing Magic Square: ");
     System.out.println("Processing 1.txt");
     boolean bool1 = MagicSquare.isLegalMagicSquare("src/P1/txt/1.txt");
     System.out.println("1.txt: " + bool1);
@@ -28,6 +31,13 @@ public class MagicSquare {
     System.out.println("\nProcessing 5.txt");
     boolean bool5 = MagicSquare.isLegalMagicSquare("src/P1/txt/5.txt");
     System.out.println("5.txt: " + bool5);
+    
+    System.out.println("\n\nPart 2, Generating Magic Squares: ");
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Please enter the size of the magic square: ");
+    int n = scanner.nextInt();
+    System.out.println("The magic square is: ");
+    MagicSquare.generateMagicSquare(n);
   }
   
   private static ArrayList<ArrayList<Integer>> getMatrix(String path)
@@ -95,5 +105,48 @@ public class MagicSquare {
     }
     
     return false;
+  }
+  
+  public static boolean generateMagicSquare(int n) {
+    if (n % 2 == 0 || n < 0) {
+      System.out.println("The size of the magic square must be a positive odd" +
+          " number");
+      return false;
+    }
+    
+    int[][] magic = new int[n][n];
+    int row = 0, col = n / 2, i, j, square = n * n;
+    for (i = 1; i <= square; i++) {
+      magic[row][col] = i;
+      if (i % n == 0) {
+        row++;
+      } else {
+        if (row == 0) {
+          row = n - 1;
+        } else {
+          row--;
+        }
+        if (col == (n - 1)) {
+          col = 0;
+        } else {
+          col++;
+        }
+      }
+    }
+    try {
+      for (i = 0; i < n; i++) {
+        Path filePath = Paths.get("src/P1/txt/6.txt");
+        for (j = 0; j < n; j++) {
+          System.out.print(magic[i][j] + "\t");
+          Files.write(filePath,
+              (magic[i][j] + "\t").getBytes());
+        }
+        System.out.println();
+        Files.write(filePath, "\n".getBytes());
+      }
+    } catch (IOException e) {
+      return false;
+    }
+    return true;
   }
 }
