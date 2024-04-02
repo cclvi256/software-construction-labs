@@ -9,18 +9,23 @@ import java.util.InputMismatchException;
 
 public class MagicSquare {
   public static void main(String[] args) {
+    System.out.println("Processing 1.txt");
     boolean bool1 = MagicSquare.isLegalMagicSquare("src/P1/txt/1.txt");
     System.out.println("1.txt: " + bool1);
     
+    System.out.println("\nProcessing 2.txt");
     boolean bool2 = MagicSquare.isLegalMagicSquare("src/P1/txt/2.txt");
     System.out.println("2.txt: " + bool2);
     
+    System.out.println("\nProcessing 3.txt");
     boolean bool3 = MagicSquare.isLegalMagicSquare("src/P1/txt/3.txt");
     System.out.println("3.txt: " + bool3);
     
+    System.out.println("\nProcessing 4.txt");
     boolean bool4 = MagicSquare.isLegalMagicSquare("src/P1/txt/4.txt");
     System.out.println("4.txt: " + bool4);
     
+    System.out.println("\nProcessing 5.txt");
     boolean bool5 = MagicSquare.isLegalMagicSquare("src/P1/txt/5.txt");
     System.out.println("5.txt: " + bool5);
   }
@@ -85,8 +90,8 @@ public class MagicSquare {
       ArrayList<ArrayList<Integer>> matrix = getMatrix(path);
       return check(matrix);
     } catch (InvalidPathException | NumberFormatException |
-             InputMismatchException | IOException e1) {
-      e1.printStackTrace();
+             InputMismatchException | IOException e) {
+      e.printStackTrace();
     }
     
     return false;
