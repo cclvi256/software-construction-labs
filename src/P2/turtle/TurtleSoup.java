@@ -229,8 +229,10 @@ public class TurtleSoup {
    * @param turtle the turtle context
    */
   public static void drawPersonalArt(Turtle turtle) {
-    
-    throw new RuntimeException("implement me!");
+    for (int i = 0; i < 120; i++) {
+      turtle.forward(50 + i);
+      turtle.turn(61.0);
+    }
   }
   
   private static double newCalculateBearingToPoint(double currentBearing,
@@ -277,14 +279,15 @@ public class TurtleSoup {
     DrawableTurtle turtle = new DrawableTurtle();
 
 //    drawSquare(turtle, 40);
+
+//    Scanner scanner = new Scanner(System.in);
+//    System.out.print("Please input the number of sides of the polygon: ");
+//    int sides = scanner.nextInt();
+//    System.out.print("Please input the length of each side: ");
+//    int sideLength = scanner.nextInt();
+//    drawRegularPolygon(turtle, sides, sideLength);
     
-    Scanner scanner = new Scanner(System.in);
-    System.out.print("Please input the number of sides of the polygon: ");
-    int sides = scanner.nextInt();
-    System.out.print("Please input the length of each side: ");
-    int sideLength = scanner.nextInt();
-    drawRegularPolygon(turtle, sides, sideLength);
-    
+    drawPersonalArt(turtle);
     // draw the window
     turtle.draw();
   }
