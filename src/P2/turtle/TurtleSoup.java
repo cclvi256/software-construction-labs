@@ -3,10 +3,7 @@
  */
 package P2.turtle;
 
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.ArrayList;
+import java.util.*;
 
 public class TurtleSoup {
   
@@ -142,7 +139,7 @@ public class TurtleSoup {
     List<Double> bearings = new ArrayList<>();
     List<Double> result = new ArrayList<>();
     
-    if(len == 0) {
+    if (len == 0) {
       return result;
     }
     
@@ -150,7 +147,7 @@ public class TurtleSoup {
     for (int i = 0; i < len - 1; i++) {
       bearings.add(
           Math.toDegrees(Math.atan2(xCoords.get(i + 1) - xCoords.get(i),
-              yCoords.get(i + 1)- yCoords.get(i))));
+              yCoords.get(i + 1) - yCoords.get(i))));
     }
     
     for (int i = 0; i < len - 1; i++) {
@@ -172,7 +169,55 @@ public class TurtleSoup {
    * @return minimal subset of the input points that form the vertices of the perimeter of the convex hull
    */
   public static Set<Point> convexHull(Set<Point> points) {
-    throw new RuntimeException("implement me!");
+    
+    if (points.size() <= 2) {
+      return points;
+    }
+    HashSet<Point> result = new HashSet<Point>();
+    Point tmp = points.iterator().next();
+    Point start = tmp;
+    Point target = tmp;
+    double angle = 0, a1 = 0, at = 0;
+    for (Point p : points) {
+      if (p.x() < start.x() || p.x() == start.x() && p.y() > start.y()) {
+        start = p;
+      }
+    }
+    result.add(start);
+    Point ptr = start;
+    while (true) {
+      at = TurtleSoup.newCalculateBearingToPoint(angle, ptr.x(), ptr.y(),
+          target.x(), target.y());
+      for (Point q : points) {
+        if (target == q) {
+          continue;
+        }
+        a1 = TurtleSoup.newCalculateBearingToPoint(angle, ptr.x(), ptr.y(),
+            q.x(), q.y());
+        if (a1 < at) {
+          target = q;
+          at = a1;
+        } else if (a1 == at) {
+          double dist =
+              TurtleSoup.calculateDistance(ptr.x(), ptr.y(), target.x(),
+                  target.y());
+          double dis1 =
+              TurtleSoup.calculateDistance(ptr.x(), ptr.y(), q.x(), q.y());
+          if (dis1 > dist) {
+            target = q;
+            at = a1;
+          }
+        }
+      }
+      if (target == start) {
+        break;
+      } else {
+        angle = at;
+        result.add(target);
+        ptr = target;
+      }
+    }
+    return result;
   }
   
   /**
@@ -184,7 +229,41 @@ public class TurtleSoup {
    * @param turtle the turtle context
    */
   public static void drawPersonalArt(Turtle turtle) {
+    
     throw new RuntimeException("implement me!");
+  }
+  
+  private static double newCalculateBearingToPoint(double currentBearing,
+                                                   double currentX,
+                                                   double currentY,
+                                                   double targetX,
+                                                   double targetY) {
+    double hei = Math.abs(currentY - targetY);
+    double wid = Math.abs(currentX - targetX);
+    double slop = Math.sqrt(hei * hei + wid * wid);
+    double CAngle = Math.toDegrees(Math.asin(wid / slop));
+    double TAngle;
+    if (currentX >= targetX && currentY > targetY) {
+      TAngle = 180 + CAngle;
+    } else if (currentX > targetX && currentY <= targetY) {
+      TAngle = 360 - CAngle;
+    } else if (currentX < targetX && currentY >= targetY) {
+      TAngle = 180 - CAngle;
+    } else if (currentX <= targetX && currentY < targetY) {
+      TAngle = CAngle;
+    } else {
+      return 359;
+    }
+    return (TAngle >= currentBearing) ? (TAngle - currentBearing) :
+        (360 - (currentBearing - TAngle));
+  }
+  
+  private static double calculateDistance(double currentX, double currentY,
+                                          double targetX,
+                                          double targetY) {
+    double wid = Math.abs(currentX - targetX);
+    double hei = Math.abs(currentY - targetY);
+    return Math.sqrt(wid * wid + hei * hei);
   }
   
   /**
@@ -209,5 +288,4 @@ public class TurtleSoup {
     // draw the window
     turtle.draw();
   }
-  
 }
