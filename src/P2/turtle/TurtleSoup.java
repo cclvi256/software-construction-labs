@@ -107,7 +107,15 @@ public class TurtleSoup {
   public static double calculateBearingToPoint(double currentBearing,
                                                int currentX, int currentY,
                                                int targetX, int targetY) {
-    throw new RuntimeException("implement me!");
+    int deltaX = targetX - currentX;
+    int deltaY = targetY - currentY;
+    double angle = Math.toDegrees(Math.atan2(deltaX, deltaY));
+    
+    double deltaAngle = angle - currentBearing;
+    while (deltaAngle < 0) {
+      deltaAngle += 360;
+    }
+    return deltaAngle;
   }
   
   /**
