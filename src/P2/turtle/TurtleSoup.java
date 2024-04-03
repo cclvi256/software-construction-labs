@@ -55,11 +55,11 @@ public class TurtleSoup {
     }
     int sides = (int) Math.round(360.0 / (180.0 - angle));
     
-    if(sides < 3) {
+    if (sides < 3) {
       throw new RuntimeException("invalid polygon");
     }
     
-    if(Math.abs(sides * (180.0 - angle) - 360.0) > 1) {
+    if (Math.abs(sides * (180.0 - angle) - 360.0) > 1) {
       throw new RuntimeException("angle must be a divisor of 360");
     }
     
@@ -134,7 +134,33 @@ public class TurtleSoup {
    */
   public static List<Double> calculateBearings(List<Integer> xCoords,
                                                List<Integer> yCoords) {
-    throw new RuntimeException("implement me!");
+    int len = xCoords.size();
+    if (len != yCoords.size()) {
+      throw new RuntimeException("xCoords and yCoords must be the same length");
+    }
+    
+    List<Double> bearings = new ArrayList<>();
+    List<Double> result = new ArrayList<>();
+    
+    if(len == 0) {
+      return result;
+    }
+    
+    bearings.add(0.0);
+    for (int i = 0; i < len - 1; i++) {
+      bearings.add(
+          Math.toDegrees(Math.atan2(xCoords.get(i + 1) - xCoords.get(i),
+              yCoords.get(i + 1)- yCoords.get(i))));
+    }
+    
+    for (int i = 0; i < len - 1; i++) {
+      result.add(bearings.get(i + 1) - bearings.get(i));
+      while (result.get(i) < 0) {
+        result.set(i, result.get(i) + 360);
+      }
+    }
+    
+    return result;
   }
   
   /**
