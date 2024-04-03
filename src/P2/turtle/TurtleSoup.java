@@ -4,6 +4,7 @@
 package P2.turtle;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class TurtleSoup {
       throw new RuntimeException("invalid polygon");
     }
     
-    if(Math.abs(sides * angle - 360) > 1) {
+    if(Math.abs(sides * (180.0 - angle) - 360.0) > 1) {
       throw new RuntimeException("angle must be a divisor of 360");
     }
     
@@ -161,8 +162,15 @@ public class TurtleSoup {
    */
   public static void main(String[] args) {
     DrawableTurtle turtle = new DrawableTurtle();
+
+//    drawSquare(turtle, 40);
     
-    drawSquare(turtle, 40);
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Please input the number of sides of the polygon: ");
+    int sides = scanner.nextInt();
+    System.out.print("Please input the length of each side: ");
+    int sideLength = scanner.nextInt();
+    drawRegularPolygon(turtle, sides, sideLength);
     
     // draw the window
     turtle.draw();
