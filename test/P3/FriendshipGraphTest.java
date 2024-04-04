@@ -223,4 +223,58 @@ public class FriendshipGraphTest {
     assertThrows(IllegalArgumentException.class,
         () -> graph.addEdge(tom, tom));
   }
+  
+  @Test
+  public void sameLengthPathFromOneToAnother() {
+    FriendshipGraph graph = new FriendshipGraph();
+    Person tom = new Person("Tom");
+    Person spike = new Person("Spike");
+    Person butch = new Person("Butch");
+    Person lily = new Person("Lily");
+    
+    graph.addVertex(tom);
+    graph.addVertex(spike);
+    graph.addVertex(butch);
+    graph.addVertex(lily);
+    
+    graph.addEdge(tom, spike);
+    graph.addEdge(spike, butch);
+    graph.addEdge(tom, lily);
+    graph.addEdge(lily, butch);
+    graph.addEdge(spike, tom);
+    graph.addEdge(butch, spike);
+    graph.addEdge(lily, tom);
+    graph.addEdge(butch, lily);
+    
+    assertEquals(2, graph.getDistance(tom, butch));
+  }
+  
+  @Test
+  public void differentLengthPathFromOneToAnother() {
+    FriendshipGraph graph = new FriendshipGraph();
+    Person tom = new Person("Tom");
+    Person spike = new Person("Spike");
+    Person butch = new Person("Butch");
+    Person lily = new Person("Lily");
+    Person jerry = new Person("Jerry");
+    
+    graph.addVertex(tom);
+    graph.addVertex(spike);
+    graph.addVertex(butch);
+    graph.addVertex(lily);
+    graph.addVertex(jerry);
+    
+    graph.addEdge(spike, tom);
+    graph.addEdge(tom, spike);
+    graph.addEdge(butch, spike);
+    graph.addEdge(spike, butch);
+    graph.addEdge(tom, lily);
+    graph.addEdge(lily, tom);
+    graph.addEdge(lily, jerry);
+    graph.addEdge(jerry, lily);
+    graph.addEdge(jerry, butch);
+    graph.addEdge(butch, jerry);
+    
+    assertEquals(2, graph.getDistance(tom, butch));
+  }
 }
