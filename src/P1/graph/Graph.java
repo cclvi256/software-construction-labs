@@ -48,7 +48,7 @@ public interface Graph<L> {
      * 
      * @param source label of the source vertex
      * @param target label of the target vertex
-     * @param weight nonnegative weight of the edge
+     * @param weight non-negative weight of the edge
      * @return the previous weight of the edge, or zero if there was no such
      *         edge
      */
