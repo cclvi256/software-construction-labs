@@ -76,7 +76,7 @@ public abstract class GraphInstanceTest {
    *
    * 3 remove() - removing a vertex from the graph
    *  1 Vertex not exists -> Return false
-   *  2 Vertex exists but has no eddge -> Remove it and return true
+   *  2 Vertex exists but has no edge -> Remove it and return true
    *  3 Vertex exists and has edge -> Remove it and return true
    *  4 Vertex is null -> Exception
    *
@@ -100,4 +100,171 @@ public abstract class GraphInstanceTest {
   
   // First, observer methods should be tested first, because they will be used
   // to test other methods.
+
+  //   * 4 vertices() - get all the vertices in the graph
+  
+  //   *  1 Graph has no vertex -> Return an empty set
+  @Test public void test41() {
+    Graph<String> graph = emptyInstance();
+    assert(graph.vertices().isEmpty());
+  }
+  
+  //   *  2 Graph has one vertex -> Return a set with one element
+  @Test public void test42() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    assertEquals(1, graph.vertices().size());
+    // TODO Ensure the vertex is "a"
+  }
+  
+  //   *  3 Graph has few vertices -> Return a set with all the elements
+  @Test public void test43() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    graph.add("b");
+    graph.add("c");
+    assertEquals(3, graph.vertices().size());
+    // TODO Ensure the vertices are "a", "b", and "c"
+  }
+  
+  //   *  4 Graph has many vertices -> Return a set with all the elements
+  @Test public void test44() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    graph.add("b");
+    graph.add("c");
+    graph.add("d");
+    graph.add("e");
+    graph.add("f");
+    graph.add("g");
+    graph.add("h");
+    graph.add("i");
+    graph.add("j");
+    assertEquals(10, graph.vertices().size());
+    // TODO Ensure the vertices are "a", "b", ..., "j"
+  }
+  
+  //   *  5 Graph has null vertex or vertices -> Exception
+  @Test(expected = Exception.class) public void test45() {
+    Graph<String> graph = emptyInstance();
+    graph.add(null);
+  }
+  
+  //   * 5 sources() - get all the sources of the target vertex
+  
+  //   *  1 Target vertex not exists -> Return an empty map  (or throw an exception, or return null?)
+  @Test public void test51() {
+    Graph<String> graph = emptyInstance();
+    assertTrue(graph.sources("a").isEmpty());
+  }
+  
+  //   *  2 Target vertex exists but has no source -> Return an empty map
+  @Test public void test52() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    assertTrue(graph.sources("a").isEmpty());
+  }
+  
+  //   *  3 Target vertex exists and has few sources -> Return a map with all the elements
+  @Test public void test53() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    graph.add("b");
+    graph.add("c");
+    graph.set("a", "b", 1);
+    graph.set("a", "c", 2);
+    assertEquals(2, graph.sources("b").size());
+    // TODO Ensure the sources are "a" and "c"
+  }
+  
+  //   *  4 Target vertex exists and has many sources -> Return a map with all the elements
+  @Test public void test54() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    graph.add("b");
+    graph.add("c");
+    graph.add("d");
+    graph.add("e");
+    graph.add("f");
+    graph.add("g");
+    graph.add("h");
+    graph.add("i");
+    graph.add("j");
+    graph.set("a", "b", 1);
+    graph.set("a", "c", 2);
+    graph.set("a", "d", 3);
+    graph.set("a", "e", 4);
+    graph.set("a", "f", 5);
+    graph.set("a", "g", 6);
+    graph.set("a", "h", 7);
+    graph.set("a", "i", 8);
+    graph.set("a", "j", 9);
+    assertEquals(9, graph.sources("b").size());
+    // TODO Ensure the sources are "a", "c", ..., "j"
+  }
+  
+  //   *  5 Target vertex is null -> Exception
+  @Test(expected = Exception.class) public void test55() {
+    Graph<String> graph = emptyInstance();
+    graph.sources(null);
+  }
+  
+  //   * 6 targets() - get all the targets of the source vertex
+  
+  //   *  1 Source vertex not exists -> Return an empty map  (or throw an exception, or return null?)
+  @Test public void test61() {
+    Graph<String> graph = emptyInstance();
+    assertTrue(graph.targets("a").isEmpty());
+  }
+  
+  //   *  2 Source vertex exists but has no target -> Return an empty map
+  @Test public void test62() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    assertTrue(graph.targets("a").isEmpty());
+  }
+  
+  //   *  3 Source vertex exists and has few targets -> Return a map with all the elements
+  @Test public void test63() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    graph.add("b");
+    graph.add("c");
+    graph.set("a", "b", 1);
+    graph.set("a", "c", 2);
+    assertEquals(2, graph.targets("a").size());
+    // TODO Ensure the targets are "b" and "c"
+  }
+  
+  //   *  4 Source vertex exists and has many targets -> Return a map with all the elements
+  @Test public void test64() {
+    Graph<String> graph = emptyInstance();
+    graph.add("a");
+    graph.add("b");
+    graph.add("c");
+    graph.add("d");
+    graph.add("e");
+    graph.add("f");
+    graph.add("g");
+    graph.add("h");
+    graph.add("i");
+    graph.add("j");
+    graph.set("a", "b", 1);
+    graph.set("a", "c", 2);
+    graph.set("a", "d", 3);
+    graph.set("a", "e", 4);
+    graph.set("a", "f", 5);
+    graph.set("a", "g", 6);
+    graph.set("a", "h", 7);
+    graph.set("a", "i", 8);
+    graph.set("a", "j", 9);
+    assertEquals(9, graph.targets("a").size());
+    // TODO Ensure the targets are "b", "c", ..., "j"
+  }
+  
+  //   *  5 Source vertex is null -> Exception
+  @Test(expected = Exception.class) public void test65() {
+    Graph<String> graph = emptyInstance();
+    graph.targets(null);
+  }
 }
