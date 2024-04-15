@@ -33,8 +33,11 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
   
   /*
    * 1 What should this string contains
-   *  1 The list of the vertices, format V = {v1, v2, v3, ...}
-   *  2 The list of the edges, format E = {{v1, v2, weight1}, {v2, v3, weight2}, ...}
+   *  first, the number of vertices, then 1 tab
+   *  second, the number of edges, then 1 LF
+   *  third, the vertices, each vertex is separated by 1 tab, then 1 LF
+   *  fourth, the edges, each edge is separated by 2 tab, then \0 as the end
+   *   an edge is represented by two vertices and weight, separated by 1 tab
    *
    * 2 Which cases
    *  1 The graph is empty
@@ -47,63 +50,84 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
   // TODO tests for ConcreteEdgesGraph.toString()
   
   @Test
-  public void test1() {
+  public void testCEG1() {
     Graph<String> graph = emptyInstance();
-    assertEquals("V = {}\nE = {}", graph.toString());
+    assertEquals("0\t0", graph.toString().substring(0, 3));
   }
   
   @Test
-  public void test2() {
+  public void testCEG2() {
     Graph<String> graph = emptyInstance();
-    graph.add("v1");
-    assertEquals("V = {v1}\nE = {}", graph.toString());
+    graph.add("a");
+    String graphString = graph.toString();
+    String[] parts = graphString.split("\n");
+    int verticesNum = Integer.parseInt(parts[0].split("\t")[0]);
+    int edgesNum = Integer.parseInt(parts[0].split("\t")[1]);
+    String[] vertices = parts[1].split("\t");
+    String[] edges = parts[2].split("\t\t");
+    assertEquals(1, verticesNum);
+    assertEquals(0, edgesNum);
+    assertEquals("a", vertices[0]);
+    assertEquals(0, edges.length);
   }
   
-  @Test
-  public void test3() {
+  @Test public void testCEG3() {
     Graph<String> graph = emptyInstance();
-    graph.add("v1");
-    graph.add("v2");
-    graph.add("v3");
-    String vertices =
-        graph.toString().substring(4, graph.toString().indexOf("\nE ="));
-    vertices = vertices.substring(1, vertices.length() - 1);
-    String[] vertexArray = vertices.split(", ");
-    assertEquals(3, vertexArray.length);
-    assertTrue(vertices.contains("v1"));
-    assertTrue(vertices.contains("v2"));
-    assertTrue(vertices.contains("v3"));
+    graph.add("a");
+    graph.add("b");
+    graph.add("c");
+    String graphString = graph.toString();
+    String[] parts = graphString.split("\n");
+    int verticesNum = Integer.parseInt(parts[0].split("\t")[0]);
+    int edgesNum = Integer.parseInt(parts[0].split("\t")[1]);
+    String[] vertices = parts[1].split("\t");
+    String[] edges = parts[2].split("\t\t");
+    assertEquals(3, verticesNum);
+    assertEquals(0, edgesNum);
+    assertEquals("a", vertices[0]);
+    assertEquals("b", vertices[1]);
+    assertEquals("c", vertices[2]);
+    assertEquals(0, edges.length);
   }
   
-  @Test
-  public void test4() {
+  @Test public void testCEG4() {
     Graph<String> graph = emptyInstance();
-    graph.add("v1");
-    graph.add("v2");
-    graph.set("v1", "v2", 1);
-    String edges =
-        graph.toString().substring(graph.toString().indexOf("\nE =") + 5);
-    edges = edges.substring(2, edges.length() - 2);
-    String[] edgeArray = edges.split("}, ?");
-    assertEquals(1, edgeArray.length);
-    assertTrue(edges.contains("v1, v2, 1"));
+    graph.add("a");
+    graph.add("b");
+    graph.set("a", "b", 1);
+    String graphString = graph.toString();
+    String[] parts = graphString.split("\n");
+    int verticesNum = Integer.parseInt(parts[0].split("\t")[0]);
+    int edgesNum = Integer.parseInt(parts[0].split("\t")[1]);
+    String[] vertices = parts[1].split("\t");
+    String[] edges = parts[2].split("\t\t");
+    assertEquals(2, verticesNum);
+    assertEquals(1, edgesNum);
+    assertEquals("a", vertices[0]);
+    assertEquals("b", vertices[1]);
+    assertEquals("a\tb\t1", edges[0]);
   }
   
-  @Test
-  public void test5() {
+  @Test public void testCEG5() {
     Graph<String> graph = emptyInstance();
-    graph.add("v1");
-    graph.add("v2");
-    graph.add("v3");
-    graph.set("v1", "v2", 1);
-    graph.set("v2", "v3", 2);
-    String edges =
-        graph.toString().substring(graph.toString().indexOf("\nE =") + 5);
-    edges = edges.substring(2, edges.length() - 2);
-    String[] edgeArray = edges.split("}, ?");
-    assertEquals(2, edgeArray.length);
-    assertTrue(edges.contains("v1, v2, 1"));
-    assertTrue(edges.contains("v2, v3, 2"));
+    graph.add("a");
+    graph.add("b");
+    graph.add("c");
+    graph.set("a", "b", 1);
+    graph.set("b", "c", 2);
+    String graphString = graph.toString();
+    String[] parts = graphString.split("\n");
+    int verticesNum = Integer.parseInt(parts[0].split("\t")[0]);
+    int edgesNum = Integer.parseInt(parts[0].split("\t")[1]);
+    String[] vertices = parts[1].split("\t");
+    String[] edges = parts[2].split("\t\t");
+    assertEquals(3, verticesNum);
+    assertEquals(2, edgesNum);
+    assertEquals("a", vertices[0]);
+    assertEquals("b", vertices[1]);
+    assertEquals("c", vertices[2]);
+    assertEquals("a\tb\t1", edges[0]);
+    assertEquals("b\tc\t2", edges[1]);
   }
   
   /*
