@@ -70,6 +70,7 @@ class Edge {
     
     // TODO fields
     
+    
     // Abstraction function:
     //   TODO
     // Representation invariant:
