@@ -162,6 +162,12 @@ class Vertex {
     for (Map.Entry<Vertex, Integer> entry : targets.entrySet()) {
       res += entry.getKey().getLabel() + "\t" + entry.getValue() + "\t\t";
     }
+    
+    if (res.length() > 2) {
+      res = res.substring(0, res.length() - 2);
+    } else {
+      res = "";
+    }
     return res;
   }
 }
