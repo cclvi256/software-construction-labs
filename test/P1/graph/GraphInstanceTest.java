@@ -116,7 +116,7 @@ public abstract class GraphInstanceTest {
     Graph<String> graph = emptyInstance();
     graph.add("a");
     assertEquals(1, graph.vertices().size());
-    // TODO Ensure the vertex is "a"
+    assertTrue(graph.vertices().contains("a"));
   }
   
   //   *  3 Graph has few vertices -> Return a set with all the elements
@@ -127,7 +127,9 @@ public abstract class GraphInstanceTest {
     graph.add("b");
     graph.add("c");
     assertEquals(3, graph.vertices().size());
-    // TODO Ensure the vertices are "a", "b", and "c"
+    assertTrue(graph.vertices().contains("a"));
+    assertTrue(graph.vertices().contains("b"));
+    assertTrue(graph.vertices().contains("c"));
   }
   
   //   *  4 Graph has many vertices -> Return a set with all the elements
@@ -145,7 +147,11 @@ public abstract class GraphInstanceTest {
     graph.add("i");
     graph.add("j");
     assertEquals(10, graph.vertices().size());
-    // TODO Ensure the vertices are "a", "b", ..., "j"
+    String str = "";
+    for (int i = 0; i < 10; i++) {
+      str = "" + (char)('a' + i);
+      assertTrue(graph.vertices().contains(str));
+    }
   }
   
   //   *  5 Graph has null vertex or vertices -> Exception
@@ -180,9 +186,12 @@ public abstract class GraphInstanceTest {
     graph.add("b");
     graph.add("c");
     graph.set("a", "b", 1);
-    graph.set("a", "c", 2);
+    graph.set("c", "b", 2);
     assertEquals(2, graph.sources("b").size());
-    // TODO Ensure the sources are "a" and "c"
+    assertTrue(graph.sources("b").containsKey("a"));
+    assertTrue(graph.sources("b").containsKey("c"));
+    assertEquals(1, (int) graph.sources("b").get("a"));
+    assertEquals(2, (int) graph.sources("b").get("c"));
   }
   
   //   *  4 Target vertex exists and has many sources -> Return a map with all the elements
@@ -209,7 +218,10 @@ public abstract class GraphInstanceTest {
     graph.set("a", "i", 8);
     graph.set("a", "j", 9);
     assertEquals(9, graph.sources("b").size());
-    // TODO Ensure the sources are "a", "c", ..., "j"
+    for (int i = 0; i < 9; i++) {
+      assertTrue(graph.sources("a").containsKey("" + (char)('b' + i)));
+      assertEquals(i + 1, (int) graph.sources("a").get("" + (char)('b' + i)));
+    }
   }
   
   //   *  5 Target vertex is null -> Exception
@@ -246,7 +258,10 @@ public abstract class GraphInstanceTest {
     graph.set("a", "b", 1);
     graph.set("a", "c", 2);
     assertEquals(2, graph.targets("a").size());
-    // TODO Ensure the targets are "b" and "c"
+    assertTrue(graph.targets("a").containsKey("b"));
+    assertTrue(graph.targets("a").containsKey("c"));
+    assertEquals(1, (int) graph.targets("a").get("b"));
+    assertEquals(2, (int) graph.targets("a").get("c"));
   }
   
   //   *  4 Source vertex exists and has many targets -> Return a map with all the elements
@@ -273,7 +288,10 @@ public abstract class GraphInstanceTest {
     graph.set("a", "i", 8);
     graph.set("a", "j", 9);
     assertEquals(9, graph.targets("a").size());
-    // TODO Ensure the targets are "b", "c", ..., "j"
+    for (int i = 0; i < 9; i++) {
+      assertTrue(graph.targets("a").containsKey("" + (char)('b' + i)));
+      assertEquals(i + 1, (int) graph.targets("a").get("" + (char)('b' + i)));
+    }
   }
   
   //   *  5 Source vertex is null -> Exception
@@ -292,8 +310,7 @@ public abstract class GraphInstanceTest {
   public void test11() {
     Graph<String> graph = emptyInstance();
     assertTrue(graph.add("a"));
-    // assertTrue(graph.vertices().contains("a"));
-    // TODO Ensure this is valid to test if "a" is contained.
+    assertTrue(graph.vertices().contains("a"));
   }
   
   //   *  2 Vertex exists -> Return false and do nothing

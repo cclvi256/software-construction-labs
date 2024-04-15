@@ -36,3 +36,6 @@ build/
 
 ### Resource File ###
 res/
+
+### Miscellaneous ###
+test/PrivateTest/
