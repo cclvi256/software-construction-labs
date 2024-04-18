@@ -3,6 +3,8 @@
  */
 package P1.graph;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import java.util.*;
@@ -18,14 +20,52 @@ public class ConcreteVerticesGraph implements Graph<String> {
   
   // Abstraction function:
   //   TODO
+  //   The vertices is all the added vertices in the graph
+  //   Each of the vertex has it field:
+  //     Label: the label of the vertex
+  //     Targets: the every targets of each vertex, which is a map from the
+  //     target vertex to the weight
   // Representation invariant:
-  //   TODO
+  //   The label of each vertex should not be null
+  //   The labels should not be the same
+  //   The targets should not be null
+  //   The weight should be positive
+  //   The targets should not contain the same target vertex
+  //
   // Safety from rep exposure:
   //   TODO
-  
+  //   All of the fields are private, the label is a String, which is immutable,
+  //   and the targets is a Map, which is mutable, but it should be got and
+  //   returned with defensive copy
   // TODO constructor
+  private ConcreteVerticesGraph() {
+    // It seems that I should do nothing in the constructor.
+  }
   
   // TODO checkRep
+  
+  private void checkRep() {
+    // Not null collection
+    assertNotNull(vertices);
+    
+    // Not null label
+    for (Vertex vertex : vertices) {
+      assertNotNull(vertex);
+      assertTrue(vertex.checkRep());
+    }
+    
+    // Not duplicate label
+    for (int i = 0; i < vertices.size(); i++) {
+      for (int j = i + 1; j < vertices.size(); j++) {
+        assertNotEquals(vertices.get(i).getLabel(), vertices.get(j).getLabel());
+        assertNotNull(vertices.get(i).getTargets());
+      }
+    }
+    
+    // Considering when adding a new key-value pair in a map will replace the
+    // old value instead of adding a new one. So I have no way to check if
+    // there's duplicated targets.
+  }
   
   @Override
   public boolean add(String vertex) {
@@ -104,7 +144,7 @@ class Vertex {
   
   // TODO checkRep
   
-  private boolean checkRep() {
+  protected boolean checkRep() {
     if (label == null) {
       return false;
     }
