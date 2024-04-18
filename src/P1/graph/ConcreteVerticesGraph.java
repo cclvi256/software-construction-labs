@@ -64,12 +64,24 @@ public class ConcreteVerticesGraph implements Graph<String> {
     
     // Considering when adding a new key-value pair in a map will replace the
     // old value instead of adding a new one. So I have no way to check if
-    // there's duplicated targets.
+    //there's duplicated targets.
   }
   
   @Override
   public boolean add(String vertex) {
-    throw new RuntimeException("not implemented");
+    if (vertex == null) {
+      throw new RuntimeException("Vertex is null");
+    }
+    
+    for (Vertex v : vertices) {
+      if (v.getLabel().equals(vertex)) {
+        return false;
+      }
+    }
+    
+    vertices.add(new Vertex(vertex));
+    checkRep();
+    return true;
   }
   
   @Override
@@ -79,7 +91,18 @@ public class ConcreteVerticesGraph implements Graph<String> {
   
   @Override
   public boolean remove(String vertex) {
-    throw new RuntimeException("not implemented");
+    if(vertex == null) {
+      throw new RuntimeException("Vertex is null");
+    }
+    
+    Vertex vertexCopy = new Vertex(vertex);
+    if(vertices.contains(vertexCopy)) {
+      vertices.remove(vertexCopy);
+      checkRep();
+      return true;
+    } else {
+      return false;
+    }
   }
   
   @Override
