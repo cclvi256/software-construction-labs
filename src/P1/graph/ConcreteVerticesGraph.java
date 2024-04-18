@@ -86,17 +86,56 @@ public class ConcreteVerticesGraph implements Graph<String> {
   
   @Override
   public int set(String source, String target, int weight) {
-    throw new RuntimeException("not implemented");
+    Vertex sourceCopy = new Vertex(source);
+    Vertex targetCopy = new Vertex(target);
+    
+    if (!vertices.contains(sourceCopy)) {
+      vertices.add(sourceCopy);
+    }
+    
+    if (!vertices.contains(targetCopy)) {
+      vertices.add(targetCopy);
+    }
+    
+    if (weight < 0) {
+      throw new RuntimeException("Weight is negative");
+    }
+    
+    for (Vertex vertex : vertices) {
+      if (vertex.getLabel().equals(source)) {
+        if (weight == 0) {
+          if (vertex.getTargets().containsKey(targetCopy)) {
+            int res = vertex.getTargets().get(targetCopy);
+            vertex.getTargets().remove(targetCopy);
+            return res;
+          } else {
+            return 0;
+          }
+        } else {
+          if (vertex.getTargets().containsKey(targetCopy)) {
+            int res = vertex.getTargets().get(targetCopy);
+            vertex.getTargets().put(targetCopy, weight);
+            return res;
+          } else {
+            vertex.getTargets().put(targetCopy, weight);
+            return 0;
+          }
+        }
+      }
+      break;
+    }
+    
+    throw new RuntimeException("Source vertex not found");
   }
   
   @Override
   public boolean remove(String vertex) {
-    if(vertex == null) {
+    if (vertex == null) {
       throw new RuntimeException("Vertex is null");
     }
     
     Vertex vertexCopy = new Vertex(vertex);
-    if(vertices.contains(vertexCopy)) {
+    if (vertices.contains(vertexCopy)) {
       vertices.remove(vertexCopy);
       checkRep();
       return true;
