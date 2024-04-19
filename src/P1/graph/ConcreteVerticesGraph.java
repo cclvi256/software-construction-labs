@@ -38,7 +38,7 @@ public class ConcreteVerticesGraph implements Graph<String> {
   //   and the targets is a Map, which is mutable, but it should be got and
   //   returned with defensive copy
   // TODO constructor
-  private ConcreteVerticesGraph() {
+  public ConcreteVerticesGraph() {
     // It seems that I should do nothing in the constructor.
   }
   
@@ -86,23 +86,50 @@ public class ConcreteVerticesGraph implements Graph<String> {
   
   @Override
   public int set(String source, String target, int weight) {
-    Vertex sourceCopy = new Vertex(source);
-    Vertex targetCopy = new Vertex(target);
     
-    if (!vertices.contains(sourceCopy)) {
+    // If source or target is null, throw exception.
+    if (source == null || target == null) {
+      throw new RuntimeException("Source or target is null");
+    }
+    
+    // If source or target not exists, add them.
+    Vertex sourceCopy = null;
+    Vertex targetCopy = null;
+    
+    for(Vertex vertex : vertices) {
+      if (vertex.getLabel().equals(source)) {   // Remember vertex is mutable
+        sourceCopy = vertex;
+      }
+      if (vertex.getLabel().equals(target)) {
+        targetCopy = vertex;
+      }
+      if (sourceCopy != null && targetCopy != null) {
+        break;
+      }
+    }
+    
+    if(sourceCopy == null) {
+      sourceCopy = new Vertex(source);
       vertices.add(sourceCopy);
     }
     
-    if (!vertices.contains(targetCopy)) {
+    if(targetCopy == null) {
+      targetCopy = new Vertex(target);
       vertices.add(targetCopy);
     }
     
+    // If weight is negative, throw exception.
     if (weight < 0) {
       throw new RuntimeException("Weight is negative");
     }
     
+    // If weight is not negative, add, modify, or remove the edge.
     for (Vertex vertex : vertices) {
+      
+      // Wait until the source is found.
       if (vertex.getLabel().equals(source)) {
+        
+        // If weight is 0, remove the edge.
         if (weight == 0) {
           if (vertex.getTargets().containsKey(targetCopy)) {
             int res = vertex.getTargets().get(targetCopy);
@@ -226,6 +253,14 @@ class Vertex {
   
   Vertex(String label) {
     this.label = label;
+  }
+  
+  @Override
+  public boolean equals(Object that) {
+    if (that instanceof Vertex) {
+      return this.label.equals(((Vertex) that).label);
+    }
+    return false;
   }
   
   Vertex(String label, Map<Vertex, Integer> targets) {
