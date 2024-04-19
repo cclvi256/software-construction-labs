@@ -37,5 +37,8 @@ build/
 ### Resource File ###
 res/
 
+### Automatic Scripts ###
+*.sh
+
 ### Miscellaneous ###
 test/PrivateTest/
