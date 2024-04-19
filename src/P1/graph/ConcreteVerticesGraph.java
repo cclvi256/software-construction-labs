@@ -86,73 +86,69 @@ public class ConcreteVerticesGraph implements Graph<String> {
   
   @Override
   public int set(String source, String target, int weight) {
-    
-    // If source or target is null, throw exception.
-    if (source == null || target == null) {
-      throw new RuntimeException("Source or target is null");
+    // Block the illegal inputs
+    if(weight < 0 || source == null || target == null) {
+      throw new RuntimeException("Invalid input");
     }
     
-    // If source or target not exists, add them.
-    Vertex sourceCopy = null;
-    Vertex targetCopy = null;
+    // Find the source and target vertex
+    Vertex localSource = null;
+    Vertex localTarget = null;
     
-    for(Vertex vertex : vertices) {
-      if (vertex.getLabel().equals(source)) {   // Remember vertex is mutable
-        sourceCopy = vertex;
+    for (Vertex vertex : vertices) {
+      if (vertex.getLabel().equals(source)) {
+        localSource = vertex;
       }
       if (vertex.getLabel().equals(target)) {
-        targetCopy = vertex;
+        localTarget = vertex;
       }
-      if (sourceCopy != null && targetCopy != null) {
+      if(localSource != null && localTarget != null) {
         break;
       }
     }
     
-    if(sourceCopy == null) {
-      sourceCopy = new Vertex(source);
-      vertices.add(sourceCopy);
-    }
-    
-    if(targetCopy == null) {
-      targetCopy = new Vertex(target);
-      vertices.add(targetCopy);
-    }
-    
-    // If weight is negative, throw exception.
-    if (weight < 0) {
-      throw new RuntimeException("Weight is negative");
-    }
-    
-    // If weight is not negative, add, modify, or remove the edge.
-    for (Vertex vertex : vertices) {
-      
-      // Wait until the source is found.
-      if (vertex.getLabel().equals(source)) {
-        
-        // If weight is 0, remove the edge.
-        if (weight == 0) {
-          if (vertex.getTargets().containsKey(targetCopy)) {
-            int res = vertex.getTargets().get(targetCopy);
-            vertex.getTargets().remove(targetCopy);
-            return res;
-          } else {
-            return 0;
-          }
-        } else {
-          if (vertex.getTargets().containsKey(targetCopy)) {
-            int res = vertex.getTargets().get(targetCopy);
-            vertex.getTargets().put(targetCopy, weight);
-            return res;
-          } else {
-            vertex.getTargets().put(targetCopy, weight);
-            return 0;
-          }
-        }
+    // When the weight is 0, it means to remove the edge.
+    if(weight == 0) {
+      // But it's necessary to check if the vertices exist.
+      if(localSource == null || localTarget == null) {
+        return 0;
       }
-      break;
+      
+      // And if the edge exists.
+      if(localSource.getTargets().containsKey(localTarget)) {
+        int res = localSource.getTargets().get(localTarget);
+        localSource.removeTarget(localTarget);
+        checkRep();
+        return res;
+      } else {
+        return 0;
+      }
+    } else {
+      // Now it comes to adding or modifying.
+      // First add the vertices if they don't exist.
+      if(localSource == null) {
+        localSource = new Vertex(source);
+        vertices.add(localSource);
+      }
+      
+      if(localTarget == null) {
+        localTarget = new Vertex(target);
+        vertices.add(localTarget);
+      }
+      
+      // Then add the edge or modify.
+      if(localSource.getTargets().containsKey(localTarget)) {
+        int res = localSource.getTargets().get(localTarget);
+        localSource.modifyTargetWeight(localTarget, weight);
+        checkRep();
+        return res;
+      } else {
+        localSource.addTarget(localTarget, weight);
+        checkRep();
+        return 0;
+      }
     }
     
-    throw new RuntimeException("Source vertex not found");
   }
   
   @Override
@@ -320,6 +316,24 @@ class Vertex {
     return true;
   }
   
+  public boolean removeTarget(Vertex target) {
+    if (target == null || !targets.containsKey(target)) {
+      return false;
+    }
+    
+    targets.remove(target);
+    return true;
+  }
+  
+  public boolean modifyTargetWeight(Vertex target, int weight) {
+    if (target == null || weight <= 0 || !targets.containsKey(target)) {
+      return false;
+    }
+    
+    targets.replace(target, weight);
+    return true;
+  }
+  
   // TODO toString()
   
   @Override
@@ -329,11 +343,7 @@ class Vertex {
       res += entry.getKey().getLabel() + "\t" + entry.getValue() + "\t\t";
     }
     
-    if (res.length() > 2) {
-      res = res.substring(0, res.length() - 2);
-    } else {
-      res = "";
-    }
+    res = res.substring(0, res.length() - 2);
     return res;
   }
 }
