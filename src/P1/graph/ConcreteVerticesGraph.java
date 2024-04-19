@@ -151,12 +151,41 @@ public class ConcreteVerticesGraph implements Graph<String> {
   
   @Override
   public Map<String, Integer> sources(String target) {
-    throw new RuntimeException("not implemented");
+    Map<String, Integer> res = new HashMap<>();
+    
+    boolean found = false;
+    for (Vertex vertex : vertices) {
+      if (vertex.getLabel().equals(target)) {
+        found = true;
+        break;
+      }
+    }
+    
+    if (!found) {
+      throw new RuntimeException("Target vertex not found");
+    }
+    
+    for (Vertex vertex : vertices) {
+      if (vertex.getTargets().containsKey(new Vertex(target))) {
+        res.put(vertex.getLabel(), vertex.getTargets().get(new Vertex(target)));
+      }
+    }
+    return res;
   }
   
   @Override
   public Map<String, Integer> targets(String source) {
-    throw new RuntimeException("not implemented");
+    for (Vertex vertex : vertices) {
+      if (vertex.getLabel().equals(source)) {
+        Map<String, Integer> res = new HashMap<>();
+        for (Map.Entry<Vertex, Integer> entry : vertex.getTargets()
+            .entrySet()) {
+          res.put(entry.getKey().getLabel(), entry.getValue());
+        }
+        return res;
+      }
+    }
+    throw new RuntimeException("Source vertex not found");
   }
   
   // TODO toString()
