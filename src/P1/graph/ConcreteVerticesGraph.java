@@ -178,6 +178,7 @@ public class ConcreteVerticesGraph implements Graph<String> {
   
   @Override
   public Map<String, Integer> sources(String target) {
+    // TODO This method fails some tests
     Map<String, Integer> res = new HashMap<>();
     
     boolean found = false;
@@ -193,8 +194,10 @@ public class ConcreteVerticesGraph implements Graph<String> {
     }
     
     for (Vertex vertex : vertices) {
-      if (vertex.getTargets().containsKey(new Vertex(target))) {
-        res.put(vertex.getLabel(), vertex.getTargets().get(new Vertex(target)));
+      for(Map.Entry<Vertex, Integer> entry : vertex.getTargets().entrySet()) {
+        if(entry.getKey().getLabel().equals(target)) {
+          res.put(vertex.getLabel(), entry.getValue());
+        }
       }
     }
     return res;
