@@ -376,16 +376,29 @@ public abstract class GraphInstanceTest {
   //   *  6 Source vertex not exists -> Return 0 and do nothing
   @Test public void test206() {
     Graph<String> graph = emptyInstance();
-    assertEquals(0, graph.set("a", "b", 1));
+    graph.add("b");
     assertEquals(0, graph.set("a", "b", 0));
+    assertEquals(1, graph.vertices().size());
+    assertTrue(graph.vertices().contains("b"));
+    assertFalse(graph.sources("b").isEmpty());
+    assertEquals(0, graph.set("a", "b", 1));
+    assertEquals(2, graph.vertices().size());
+    assertTrue(graph.vertices().contains("a"));
+    assertTrue(graph.vertices().contains("b"));
+    assertTrue(graph.sources("b").isEmpty());
+    assertEquals(1, graph.set("a", "b", 0));
+    assertTrue(graph.sources("b").isEmpty());
+    assertTrue(graph.vertices().contains("b"));
+    assertTrue(graph.vertices().contains("a"));
   }
   
   //   *  7 Target vertex not exists -> Return 0 and do nothing
   @Test public void test207() {
     Graph<String> graph = emptyInstance();
     graph.add("a");
-    assertEquals(0, graph.set("a", "b", 1));
     assertEquals(0, graph.set("a", "b", 0));
+    assertEquals(0, graph.set("a", "b", 1));
+    assertEquals(1, graph.set("a", "b", 0));
   }
   
   //   *  8 Source vertex is null -> Exception
