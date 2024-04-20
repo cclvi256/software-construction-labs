@@ -169,7 +169,11 @@ public class ConcreteVerticesGraph implements Graph<String> {
   
   @Override
   public Set<String> vertices() {
-    throw new RuntimeException("not implemented");
+    Set<String> res = new HashSet<>();
+    for (Vertex vertex : vertices) {
+      res.add(vertex.getLabel());
+    }
+    return res;
   }
   
   @Override
