@@ -1,7 +1,7 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+!**/src/**/target/
+!**/test/**/target/
 
 ### IntelliJ IDEA ###
 .idea/
@@ -36,6 +36,9 @@ build/
 
 ### Resource File ###
 res/
+
+### Automatic Scripts ###
+*.sh
 
 ### Miscellaneous ###
 test/PrivateTest/
