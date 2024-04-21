@@ -87,7 +87,7 @@ public class ConcreteVerticesGraph implements Graph<String> {
   @Override
   public int set(String source, String target, int weight) {
     // Block the illegal inputs
-    if(weight < 0 || source == null || target == null) {
+    if (weight < 0 || source == null || target == null) {
       throw new RuntimeException("Invalid input");
     }
     
@@ -102,20 +102,20 @@ public class ConcreteVerticesGraph implements Graph<String> {
       if (vertex.getLabel().equals(target)) {
         localTarget = vertex;
       }
-      if(localSource != null && localTarget != null) {
+      if (localSource != null && localTarget != null) {
         break;
       }
     }
     
     // When the weight is 0, it means to remove the edge.
-    if(weight == 0) {
+    if (weight == 0) {
       // But it's necessary to check if the vertices exist.
-      if(localSource == null || localTarget == null) {
+      if (localSource == null || localTarget == null) {
         return 0;
       }
       
       // And if the edge exists.
-      if(localSource.getTargets().containsKey(localTarget)) {
+      if (localSource.getTargets().containsKey(localTarget)) {
         int res = localSource.getTargets().get(localTarget);
         localSource.removeTarget(localTarget);
         checkRep();
@@ -126,18 +126,18 @@ public class ConcreteVerticesGraph implements Graph<String> {
     } else {
       // Now it comes to adding or modifying.
       // First add the vertices if they don't exist.
-      if(localSource == null) {
+      if (localSource == null) {
         localSource = new Vertex(source);
         vertices.add(localSource);
       }
       
-      if(localTarget == null) {
+      if (localTarget == null) {
         localTarget = new Vertex(target);
         vertices.add(localTarget);
       }
       
       // Then add the edge or modify.
-      if(localSource.getTargets().containsKey(localTarget)) {
+      if (localSource.getTargets().containsKey(localTarget)) {
         int res = localSource.getTargets().get(localTarget);
         localSource.modifyTargetWeight(localTarget, weight);
         checkRep();
@@ -194,8 +194,8 @@ public class ConcreteVerticesGraph implements Graph<String> {
     }
     
     for (Vertex vertex : vertices) {
-      for(Map.Entry<Vertex, Integer> entry : vertex.getTargets().entrySet()) {
-        if(entry.getKey().getLabel().equals(target)) {
+      for (Map.Entry<Vertex, Integer> entry : vertex.getTargets().entrySet()) {
+        if (entry.getKey().getLabel().equals(target)) {
           res.put(vertex.getLabel(), entry.getValue());
         }
       }
@@ -221,7 +221,39 @@ public class ConcreteVerticesGraph implements Graph<String> {
   // TODO toString()
   @Override
   public String toString() {
-    throw new RuntimeException("not implemented");
+    String res = vertices.size() + "\t";
+    int edgeNum = 0;
+    for (Vertex vertex : vertices) {
+      edgeNum += vertex.getTargets().size();
+    }
+    res += edgeNum + "\n";
+    
+    boolean first = true;
+    for (Vertex vertex : vertices) {
+      if (first) {
+        first = false;
+      } else {
+        res += "\t";
+      }
+      res += vertex.getLabel().toString();
+    }
+    
+    res += "\n";
+    
+    first = true;
+    for (Vertex vertex : vertices) {
+      for (Map.Entry<Vertex, Integer> entry : vertex.getTargets().entrySet()) {
+        if(first) {
+          first = false;
+        } else {
+          res += "\t\t";
+        }
+        res += vertex.getLabel() + "\t" + entry.getKey().getLabel() + "\t"
+            + entry.getValue();
+      }
+    }
+    
+    return res;
   }
 }
 
