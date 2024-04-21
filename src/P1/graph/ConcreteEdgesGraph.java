@@ -21,19 +21,40 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   // Abstraction function:
   //   TODO
-  //
+  //   A graph with vertices and edges, Vertices are stored in vertices set, and
+  //   the edges are stores in a list.
   // Representation invariant:
   //   TODO
+  //   Vertices are not null, and edges are not null.
   // Safety from rep exposure:
   //   TODO
+  //   All fields are private, String and Edge are immutable, though the Set and
+  //   List is mutable, the graph is less used.
   
   // TODO constructor
+  ConcreteEdgesGraph() {
+  }
   
   // TODO checkRep
+  private boolean checkRep() {
+    for (Edge edge : edges) {
+      if (edge.checkRep()) {
+        return false;
+      }
+    }
+    return true;
+  }
   
   @Override
   public boolean add(String vertex) {
-    throw new RuntimeException("not implemented");
+    for(String i : vertices) {
+      if(i.equals(vertex)) {
+        return false;
+      }
+    }
+    
+    vertices.add(vertex);
+    return true;
   }
   
   @Override
@@ -43,7 +64,13 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public boolean remove(String vertex) {
-    throw new RuntimeException("not implemented");
+    for(Edge i : edges) {
+      if(i.source.equals(vertex) || i.target.equals(vertex)) {
+        edges.remove(i);
+      }
+    }
+    
+    return vertices.remove(vertex);
   }
   
   @Override
