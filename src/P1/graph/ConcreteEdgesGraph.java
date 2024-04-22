@@ -64,11 +64,7 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public boolean remove(String vertex) {
-    for(Edge i : edges) {
-      if(i.source.equals(vertex) || i.target.equals(vertex)) {
-        edges.remove(i);
-      }
-    }
+    edges.removeIf(i -> i.source.equals(vertex) || i.target.equals(vertex));
     
     return vertices.remove(vertex);
   }
