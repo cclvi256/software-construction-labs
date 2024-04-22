@@ -159,7 +159,11 @@ public class ConcreteVerticesGraph implements Graph<String> {
     
     Vertex vertexCopy = new Vertex(vertex);
     if (vertices.contains(vertexCopy)) {
+      for(Vertex v : vertices) {
+        v.removeTarget(vertexCopy);
+      }
       vertices.remove(vertexCopy);
+      
       checkRep();
       return true;
     } else {
