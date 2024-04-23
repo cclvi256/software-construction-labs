@@ -38,7 +38,7 @@ public class ConcreteEdgesGraph<L> implements Graph<L>
   // TODO checkRep
   private boolean checkRep()
   {
-    for (Edge edge : edges)
+    for (Edge<L> edge : edges)
     {
       if (edge.checkRep())
       {
@@ -81,6 +81,7 @@ public class ConcreteEdgesGraph<L> implements Graph<L>
     // Find the source and target
     L localSource = null;
     L localTarget = null;
+    
     for (L i : vertices)
     {
       if (i.equals(source))
@@ -105,7 +106,7 @@ public class ConcreteEdgesGraph<L> implements Graph<L>
       {
         return 0;
       }
-      for (Edge i : edges)
+      for (Edge<L> i : edges)
       {
         if (i.source.equals(localSource) && i.target.equals(localTarget))
         {
@@ -142,7 +143,7 @@ public class ConcreteEdgesGraph<L> implements Graph<L>
       }
     }
     
-    edges.add(new Edge<L>(localSource, localTarget, weight));
+    edges.add(new Edge<>(localSource, localTarget, weight));
     return oldWeight;
   }
   
@@ -303,7 +304,7 @@ class Edge<L>
   
   Edge<L> setWeight(int weight)
   {
-    return new Edge<L>(source, target, weight);
+    return new Edge<>(source, target, weight);
   }
   
   // TODO toString()
