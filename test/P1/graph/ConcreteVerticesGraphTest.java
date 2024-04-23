@@ -52,13 +52,13 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     
     @Test
-    public void testCEG1() {
+    public void testCVG1() {
         Graph<String> graph = emptyInstance();
         assertEquals("0\t0", graph.toString().substring(0, 3));
     }
     
     @Test
-    public void testCEG2() {
+    public void testCVG2() {
         Graph<String> graph = emptyInstance();
         graph.add("a");
         String graphString = graph.toString();
@@ -72,7 +72,7 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
         assertEquals("a", vertices[0]);
     }
     
-    @Test public void testCEG3() {
+    @Test public void testCVG3() {
         Graph<String> graph = emptyInstance();
         graph.add("a");
         graph.add("b");
@@ -90,7 +90,7 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
         assertEquals("c", vertices[2]);
     }
     
-    @Test public void testCEG4() {
+    @Test public void testCVG4() {
         Graph<String> graph = emptyInstance();
         graph.add("a");
         graph.add("b");
@@ -108,7 +108,7 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
         assertEquals("a\tb\t1", edges[0]);
     }
     
-    @Test public void testCEG5() {
+    @Test public void testCVG5() {
         Graph<String> graph = emptyInstance();
         graph.add("a");
         graph.add("b");

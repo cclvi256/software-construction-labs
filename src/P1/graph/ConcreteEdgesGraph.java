@@ -45,6 +45,10 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public boolean add(String vertex) {
+    if (vertex == null) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
     for (String i : vertices) {
       if (i.equals(vertex)) {
         return false;
@@ -81,7 +85,7 @@ public class ConcreteEdgesGraph implements Graph<String> {
     // If the weight is 0, Removing
     
     if (weight == 0) {
-      if(localSource == null || localTarget == null) {
+      if (localSource == null || localTarget == null) {
         return 0;
       }
       for (Edge i : edges) {
@@ -121,6 +125,10 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public boolean remove(String vertex) {
+    if (vertex == null) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
     edges.removeIf(i -> i.source.equals(vertex) || i.target.equals(vertex));
     
     return vertices.remove(vertex);
@@ -128,11 +136,16 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public Set<String> vertices() {
+    
     return vertices;
   }
   
   @Override
   public Map<String, Integer> sources(String target) {
+    if (target == null || !vertices.contains(target)) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
     Map<String, Integer> res = new HashMap<>();
     
     for (Edge i : edges) {
@@ -146,10 +159,14 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public Map<String, Integer> targets(String source) {
+    if (source == null || !vertices.contains(source)) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
     Map<String, Integer> res = new HashMap<>();
     
     for (Edge i : edges) {
-      if (i.target.equals(source)) {
+      if (i.source.equals(source)) {
         res.put(i.target, i.weight);
       }
     }
@@ -160,7 +177,35 @@ public class ConcreteEdgesGraph implements Graph<String> {
   // TODO toString()
   @Override
   public String toString() {
-    throw new RuntimeException("not implemented");
+    String res = "";
+    res += vertices.size();
+    res += '\t';
+    res += edges.size();
+    res += '\n';
+    
+    boolean first = true;
+    for (String i : vertices) {
+      if (first) {
+        first = false;
+      } else {
+        res += '\t';
+      }
+      res += i;
+    }
+    
+    res += '\n';
+    
+    first = true;
+    for (Edge i : edges) {
+      if (first) {
+        first = false;
+      } else {
+        res += "\t\t";
+      }
+      res += i.toString();
+    }
+    
+    return res;
   }
   
 }
