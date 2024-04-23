@@ -15,14 +15,16 @@ import org.junit.Test;
  * <p>
  * Tests against the Graph spec should be in GraphInstanceTest.
  */
-public class ConcreteEdgesGraphTest extends GraphInstanceTest {
+public class ConcreteEdgesGraphTest extends GraphInstanceTest
+{
   
   /*
    * Provide a ConcreteEdgesGraph for tests in GraphInstanceTest.
    */
   @Override
-  public Graph<String> emptyInstance() {
-    return new ConcreteEdgesGraph();
+  public Graph<String> emptyInstance()
+  {
+    return new ConcreteEdgesGraph<>();
   }
   
   /*
@@ -50,13 +52,15 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
   // TODO tests for ConcreteEdgesGraph.toString()
   
   @Test
-  public void testCEG1() {
+  public void testCEG1()
+  {
     Graph<String> graph = emptyInstance();
     assertEquals("0\t0", graph.toString().substring(0, 3));
   }
   
   @Test
-  public void testCEG2() {
+  public void testCEG2()
+  {
     Graph<String> graph = emptyInstance();
     graph.add("a");
     String graphString = graph.toString();
@@ -70,7 +74,9 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
     assertEquals("a", vertices[0]);
   }
   
-  @Test public void testCEG3() {
+  @Test
+  public void testCEG3()
+  {
     Graph<String> graph = emptyInstance();
     graph.add("a");
     graph.add("b");
@@ -88,7 +94,9 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
     assertEquals("c", vertices[2]);
   }
   
-  @Test public void testCEG4() {
+  @Test
+  public void testCEG4()
+  {
     Graph<String> graph = emptyInstance();
     graph.add("a");
     graph.add("b");
@@ -106,7 +114,9 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
     assertEquals("a\tb\t1", edges[0]);
   }
   
-  @Test public void testCEG5() {
+  @Test
+  public void testCEG5()
+  {
     Graph<String> graph = emptyInstance();
     graph.add("a");
     graph.add("b");
