@@ -3,11 +3,7 @@
  */
 package P1.graph;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An implementation of Graph.
@@ -20,18 +16,20 @@ public class ConcreteEdgesGraph implements Graph<String> {
   private final List<Edge> edges = new ArrayList<>();
   
   // Abstraction function:
-  //   TODO
+  //
   //   A graph with vertices and edges, Vertices are stored in vertices set, and
   //   the edges are stores in a list.
   // Representation invariant:
-  //   TODO
+  //
   //   Vertices are not null, and edges are not null.
   // Safety from rep exposure:
-  //   TODO
+  //
   //   All fields are private, String and Edge are immutable, though the Set and
   //   List is mutable, the graph is less used.
   
   // TODO constructor
+  // It seems that it unnecessary to have a constructor with any operation.
+  // Maybe using the default is not bad.
   ConcreteEdgesGraph() {
   }
   
@@ -47,8 +45,12 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public boolean add(String vertex) {
-    for(String i : vertices) {
-      if(i.equals(vertex)) {
+    if (vertex == null) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
+    for (String i : vertices) {
+      if (i.equals(vertex)) {
         return false;
       }
     }
@@ -59,11 +61,74 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public int set(String source, String target, int weight) {
-    throw new RuntimeException("not implemented");
+    // Block the illegal parameters
+    if (weight < 0 || source == null || target == null ||
+        source.equals(target)) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
+    // Find the source and target
+    String localSource = null;
+    String localTarget = null;
+    for (String i : vertices) {
+      if (i.equals(source)) {
+        localSource = i;
+      }
+      if (i.equals(target)) {
+        localTarget = i;
+      }
+      if (localSource != null && localTarget != null) {
+        break;
+      }
+    }
+    
+    // If the weight is 0, Removing
+    
+    if (weight == 0) {
+      if (localSource == null || localTarget == null) {
+        return 0;
+      }
+      for (Edge i : edges) {
+        if (i.source.equals(localSource) && i.target.equals(localTarget)) {
+          edges.remove(i);
+          return i.weight;
+        }
+      }
+      return 0;
+    }
+    
+    // If the weight is positive, Adding or Modifying
+    
+    if (localSource == null) {
+      vertices.add(source);
+      localSource = source;
+    }
+    
+    if (localTarget == null) {
+      vertices.add(target);
+      localTarget = target;
+    }
+    
+    int oldWeight = 0;
+    
+    for (Edge i : edges) {
+      if (i.source.equals(localSource) && i.target.equals(localTarget)) {
+        edges.remove(i);
+        oldWeight = i.weight;
+        break;
+      }
+    }
+    
+    edges.add(new Edge(localSource, localTarget, weight));
+    return oldWeight;
   }
   
   @Override
   public boolean remove(String vertex) {
+    if (vertex == null) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
     edges.removeIf(i -> i.source.equals(vertex) || i.target.equals(vertex));
     
     return vertices.remove(vertex);
@@ -71,23 +136,76 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public Set<String> vertices() {
-    throw new RuntimeException("not implemented");
+    
+    return vertices;
   }
   
   @Override
   public Map<String, Integer> sources(String target) {
-    throw new RuntimeException("not implemented");
+    if (target == null || !vertices.contains(target)) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
+    Map<String, Integer> res = new HashMap<>();
+    
+    for (Edge i : edges) {
+      if (i.target.equals(target)) {
+        res.put(i.source, i.weight);
+      }
+    }
+    
+    return res;
   }
   
   @Override
   public Map<String, Integer> targets(String source) {
-    throw new RuntimeException("not implemented");
+    if (source == null || !vertices.contains(source)) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
+    Map<String, Integer> res = new HashMap<>();
+    
+    for (Edge i : edges) {
+      if (i.source.equals(source)) {
+        res.put(i.target, i.weight);
+      }
+    }
+    
+    return res;
   }
   
   // TODO toString()
   @Override
   public String toString() {
-    throw new RuntimeException("not implemented");
+    String res = "";
+    res += vertices.size();
+    res += '\t';
+    res += edges.size();
+    res += '\n';
+    
+    boolean first = true;
+    for (String i : vertices) {
+      if (first) {
+        first = false;
+      } else {
+        res += '\t';
+      }
+      res += i;
+    }
+    
+    res += '\n';
+    
+    first = true;
+    for (Edge i : edges) {
+      if (first) {
+        first = false;
+      } else {
+        res += "\t\t";
+      }
+      res += i.toString();
+    }
+    
+    return res;
   }
   
 }

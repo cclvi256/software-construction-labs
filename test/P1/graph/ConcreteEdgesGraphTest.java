@@ -61,14 +61,13 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
     graph.add("a");
     String graphString = graph.toString();
     String[] parts = graphString.split("\n");
+    assertEquals(2, parts.length);
     int verticesNum = Integer.parseInt(parts[0].split("\t")[0]);
     int edgesNum = Integer.parseInt(parts[0].split("\t")[1]);
     String[] vertices = parts[1].split("\t");
-    String[] edges = parts[2].split("\t\t");
     assertEquals(1, verticesNum);
     assertEquals(0, edgesNum);
     assertEquals("a", vertices[0]);
-    assertEquals(0, edges.length);
   }
   
   @Test public void testCEG3() {
@@ -78,16 +77,15 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
     graph.add("c");
     String graphString = graph.toString();
     String[] parts = graphString.split("\n");
+    assertEquals(2, parts.length);
     int verticesNum = Integer.parseInt(parts[0].split("\t")[0]);
     int edgesNum = Integer.parseInt(parts[0].split("\t")[1]);
     String[] vertices = parts[1].split("\t");
-    String[] edges = parts[2].split("\t\t");
     assertEquals(3, verticesNum);
     assertEquals(0, edgesNum);
     assertEquals("a", vertices[0]);
     assertEquals("b", vertices[1]);
     assertEquals("c", vertices[2]);
-    assertEquals(0, edges.length);
   }
   
   @Test public void testCEG4() {
@@ -129,7 +127,6 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
     assertEquals("a\tb\t1", edges[0]);
     assertEquals("b\tc\t2", edges[1]);
   }
-  
   /*
    * Testing Edge...
    */
