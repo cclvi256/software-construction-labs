@@ -3,11 +3,7 @@
  */
 package P1.graph;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An implementation of Graph.
@@ -132,17 +128,33 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public Set<String> vertices() {
-    throw new RuntimeException("not implemented");
+    return vertices;
   }
   
   @Override
   public Map<String, Integer> sources(String target) {
-    throw new RuntimeException("not implemented");
+    Map<String, Integer> res = new HashMap<>();
+    
+    for (Edge i : edges) {
+      if (i.target.equals(target)) {
+        res.put(i.source, i.weight);
+      }
+    }
+    
+    return res;
   }
   
   @Override
   public Map<String, Integer> targets(String source) {
-    throw new RuntimeException("not implemented");
+    Map<String, Integer> res = new HashMap<>();
+    
+    for (Edge i : edges) {
+      if (i.target.equals(source)) {
+        res.put(i.target, i.weight);
+      }
+    }
+    
+    return res;
   }
   
   // TODO toString()
