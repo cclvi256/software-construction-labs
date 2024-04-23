@@ -20,18 +20,20 @@ public class ConcreteEdgesGraph implements Graph<String> {
   private final List<Edge> edges = new ArrayList<>();
   
   // Abstraction function:
-  //   TODO
+  //
   //   A graph with vertices and edges, Vertices are stored in vertices set, and
   //   the edges are stores in a list.
   // Representation invariant:
-  //   TODO
+  //
   //   Vertices are not null, and edges are not null.
   // Safety from rep exposure:
-  //   TODO
+  //
   //   All fields are private, String and Edge are immutable, though the Set and
   //   List is mutable, the graph is less used.
   
   // TODO constructor
+  // It seems that it unnecessary to have a constructor with any operation.
+  // Maybe using the default is not bad.
   ConcreteEdgesGraph() {
   }
   
@@ -47,8 +49,8 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public boolean add(String vertex) {
-    for(String i : vertices) {
-      if(i.equals(vertex)) {
+    for (String i : vertices) {
+      if (i.equals(vertex)) {
         return false;
       }
     }
@@ -59,7 +61,66 @@ public class ConcreteEdgesGraph implements Graph<String> {
   
   @Override
   public int set(String source, String target, int weight) {
-    throw new RuntimeException("not implemented");
+    // Block the illegal parameters
+    if (weight < 0 || source == null || target == null ||
+        source.equals(target)) {
+      throw new RuntimeException("Illegal parameters");
+    }
+    
+    // Find the source and target
+    String localSource = null;
+    String localTarget = null;
+    for (String i : vertices) {
+      if (i.equals(source)) {
+        localSource = i;
+      }
+      if (i.equals(target)) {
+        localTarget = i;
+      }
+      if (localSource != null && localTarget != null) {
+        break;
+      }
+    }
+    
+    // If the weight is 0, Removing
+    
+    if (weight == 0) {
+      if(localSource == null || localTarget == null) {
+        return 0;
+      }
+      for (Edge i : edges) {
+        if (i.source.equals(localSource) && i.target.equals(localTarget)) {
+          edges.remove(i);
+          return i.weight;
+        }
+      }
+      return 0;
+    }
+    
+    // If the weight is positive, Adding or Modifying
+    
+    if (localSource == null) {
+      vertices.add(source);
+      localSource = source;
+    }
+    
+    if (localTarget == null) {
+      vertices.add(target);
+      localTarget = target;
+    }
+    
+    int oldWeight = 0;
+    
+    for (Edge i : edges) {
+      if (i.source.equals(localSource) && i.target.equals(localTarget)) {
+        edges.remove(i);
+        oldWeight = i.weight;
+        break;
+      }
+    }
+    
+    edges.add(new Edge(localSource, localTarget, weight));
+    return oldWeight;
   }
   
   @Override
