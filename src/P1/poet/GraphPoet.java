@@ -16,7 +16,7 @@ import P1.graph.Graph;
  * Vertices in the graph are words. Words are defined as non-empty
  * case-insensitive strings of non-space non-newline characters. They are
  * delimited in the corpus by spaces, newlines, or the ends of the file.
- * Edges in the graph count adjacencies: the number of times "w1" is followed by
+ * Edges in the graph count adjacency: the number of times "w1" is followed by
  * "w2" in the corpus is the weight of the edge from w1 to w2.
  *
  * <p>For example, given this corpus:
@@ -55,7 +55,7 @@ public class GraphPoet
   
   private final Graph<String> graph = Graph.empty();
   
-  // Abstraction function:
+    // Abstraction function:
   //   TODO
   // Representation invariant:
   //   TODO
