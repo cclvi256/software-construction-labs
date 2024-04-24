@@ -73,7 +73,6 @@ public class GraphPoet {
    * @throws IOException if the corpus file cannot be found or read
    */
   public GraphPoet(File corpus) throws IOException {
-    Graph<String> graph = Graph.empty();
     String[] words = new String[]{};
     
     FileInputStream fis = null;
@@ -143,7 +142,6 @@ public class GraphPoet {
     boolean first = true;
     String lastWord = null;
     for (String word : words) {
-      poem.append(word);
       String reserveCase = word;
       word = word.toLowerCase();
       if (first) {
