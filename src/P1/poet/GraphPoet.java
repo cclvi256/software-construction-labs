@@ -4,7 +4,9 @@
 package P1.poet;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import P1.graph.Graph;
 
@@ -50,8 +52,7 @@ import P1.graph.Graph;
  * You MUST use Graph in your rep, but otherwise the implementation of this
  * class is up to you.
  */
-public class GraphPoet
-{
+public class GraphPoet {
   
   private final Graph<String> graph = Graph.empty();
   
@@ -71,12 +72,36 @@ public class GraphPoet
    * @param corpus text file from which to derive the poet's affinity graph
    * @throws IOException if the corpus file cannot be found or read
    */
-  public GraphPoet(File corpus) throws IOException
-  {
+  public GraphPoet(File corpus) throws IOException {
     Graph<String> graph = Graph.empty();
+    String[] words = new String[]{};
     
+    FileInputStream fis = null;
     
-    throw new RuntimeException("not implemented");
+    try {
+      fis = new FileInputStream(corpus);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    String fileContent = new String(fis.readAllBytes());
+    words = fileContent.split("\\s+");
+    
+    boolean first = true;
+    String lastWord = null;
+    for (String word : words) {
+      // Preprocessing the word: change to lower case.
+      word = word.toLowerCase();
+      if (first) {
+        first = false;
+        graph.add(word);
+      } else {
+        Map<String, Integer> targets = graph.targets(lastWord);
+        int formalWeight = targets.getOrDefault(word, 0);
+        graph.set(lastWord, word,  formalWeight + 1);
+      }
+      lastWord = word;
+    }
   }
   
   // TODO checkRep
@@ -87,8 +112,7 @@ public class GraphPoet
    * @param input string from which to create the poem
    * @return poem (as described above)
    */
-  public String poem(String input)
-  {
+  public String poem(String input) {
     throw new RuntimeException("not implemented");
   }
   
