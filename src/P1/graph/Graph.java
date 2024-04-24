@@ -28,7 +28,7 @@ public interface Graph<L>
    */
   public static <L> Graph<L> empty()
   {
-    throw new RuntimeException("not implemented");
+    return new ConcreteEdgesGraph<L>();
   }
   
   /**

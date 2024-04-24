@@ -34,29 +34,29 @@ public class GraphPoetTest
   
   @Test public void testPW1() throws IOException
   {
-    GraphPoet nimoy = new GraphPoet(new File("src/poet/mugar-omni-theater.txt"));
+    GraphPoet gp = new GraphPoet(new File("src/P1/poet/mugar-omni-theater.txt"));
     String input = "";
-    assertEquals("", nimoy.poem(input));
+    assertEquals("", gp.poem(input));
   }
   
   @Test public void testPW2() throws IOException
   {
-    GraphPoet nimoy = new GraphPoet(new File("src/poet/mugar-omni-theater.txt"));
+    GraphPoet gp = new GraphPoet(new File("src/P1/poet/mugar-omni-theater.txt"));
     String input = "Test the system.";
-    assertEquals("Test the system.", nimoy.poem(input));
+    assertEquals("Test of the system.", gp.poem(input));
   }
   
   @Test public void testPW3() throws IOException
   {
-    GraphPoet nimoy = new GraphPoet(new File("src/poet/mugar-omni-theater.txt"));
+    GraphPoet gp = new GraphPoet(new File("src/P1/poet/mugar-omni-theater.txt"));
     String input = "This is a test of the Mugar Omni Theater sound system.";
-    assertEquals("This is a test of the Mugar Omni Theater sound system.", nimoy.poem(input));
+    assertEquals("This is a test of the Mugar Omni Theater sound system.", gp.poem(input));
   }
   
   @Test public void testPW4() throws IOException
   {
-    GraphPoet nimoy = new GraphPoet(new File("src/poet/mugar-omni-theater.txt"));
+    GraphPoet gp = new GraphPoet(new File("src/P1/poet/mugar-omni-theater.txt"));
     String input = "Test the Mugar system.";
-    assertEquals("Test of the Mugar system.", nimoy.poem(input));
+    assertEquals("Test of the Mugar system.", gp.poem(input));
   }
 }

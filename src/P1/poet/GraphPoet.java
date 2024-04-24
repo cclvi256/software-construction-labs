@@ -3,10 +3,12 @@
  */
 package P1.poet;
 
-import java.io.File;
-import java.io.IOException;
-
 import P1.graph.Graph;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * A graph-based poetry generator.
@@ -50,17 +52,19 @@ import P1.graph.Graph;
  * You MUST use Graph in your rep, but otherwise the implementation of this
  * class is up to you.
  */
-public class GraphPoet
-{
+public class GraphPoet {
   
   private final Graph<String> graph = Graph.empty();
   
-    // Abstraction function:
-  //   TODO
+  // Abstraction function:
+  //   The graph consists of vertices representing words and edges representing
+  //   the affinity.
   // Representation invariant:
-  //   TODO
+  //   The graph is non-null.
+  //   If possible, check if the graph's total degree is 0
   // Safety from rep exposure:
-  //   TODO
+  //   All the fields are private and final, and despite the mutability of graph,
+  //   we will never return it to any other class.
   
   /**
    * Create a new poet with the graph from corpus (as described above).
@@ -68,12 +72,61 @@ public class GraphPoet
    * @param corpus text file from which to derive the poet's affinity graph
    * @throws IOException if the corpus file cannot be found or read
    */
-  public GraphPoet(File corpus) throws IOException
-  {
-    throw new RuntimeException("not implemented");
+  public GraphPoet(File corpus) throws IOException {
+    String[] words = new String[]{};
+    
+    FileInputStream fis = null;
+    
+    try {
+      fis = new FileInputStream(corpus);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    String fileContent = new String(fis.readAllBytes());
+    words = fileContent.split("\\s+");
+    
+    boolean first = true;
+    String lastWord = null;
+    for (String word : words) {
+      // Preprocessing the word: change to lower case.
+      word = word.toLowerCase();
+      if (first) {
+        first = false;
+        graph.add(word);
+      } else {
+        Map<String, Integer> targets = graph.targets(lastWord);
+        int formalWeight = targets.getOrDefault(word, 0);
+        graph.set(lastWord, word, formalWeight + 1);
+      }
+      lastWord = word;
+    }
   }
   
   // TODO checkRep
+  private boolean checkRep() {
+    return graph != null;
+    // TODO if possible, check if the graph's total degree is 0
+  }
+  
+  private String findBridge(String from, String to) {
+    Map<String, Integer> sources = graph.sources(to);
+    int maxWeight = 0;
+    String bridge = null;
+    for (String source : sources.keySet()) {
+      if (graph.targets(from).containsKey(source)) {
+        int weight = sources.get(source) + graph.targets(from).get(source);
+        if (weight > maxWeight) {
+          maxWeight = weight;
+          bridge = source;
+        }
+      }
+    }
+    
+    // Return the bridge word if it exists, otherwise return null.
+    // If more than one bridge exists and share the same weight, return the first one.
+    return bridge;
+  }
   
   /**
    * Generate a poem.
@@ -81,11 +134,34 @@ public class GraphPoet
    * @param input string from which to create the poem
    * @return poem (as described above)
    */
-  public String poem(String input)
-  {
-    throw new RuntimeException("not implemented");
+  public String poem(String input) {
+    String[] words = input.split("\\s+");
+    // Maybe using StringBuilder is more efficient, and the StringBuilder is not
+    // available in any other classes. So it is safe to use it here.
+    StringBuilder poem = new StringBuilder();
+    boolean first = true;
+    String lastWord = null;
+    for (String word : words) {
+      String reserveCase = word;
+      word = word.toLowerCase();
+      if (first) {
+        first = false;
+      } else {
+        poem.append(' ');
+        String bridge = findBridge(lastWord, word);
+        if (bridge != null) {
+          poem.append(bridge).append(' ');
+        }
+      }
+      poem.append(reserveCase);
+      lastWord = word;
+    }
+    
+    return poem.toString();
   }
   
   // TODO toString()
-  
+  @Override public String toString() {
+    return super.toString();
+  }
 }
