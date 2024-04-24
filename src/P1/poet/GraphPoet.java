@@ -3,12 +3,12 @@
  */
 package P1.poet;
 
+import P1.graph.Graph;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
-
-import P1.graph.Graph;
 
 /**
  * A graph-based poetry generator.
@@ -98,13 +98,36 @@ public class GraphPoet {
       } else {
         Map<String, Integer> targets = graph.targets(lastWord);
         int formalWeight = targets.getOrDefault(word, 0);
-        graph.set(lastWord, word,  formalWeight + 1);
+        graph.set(lastWord, word, formalWeight + 1);
       }
       lastWord = word;
     }
   }
   
   // TODO checkRep
+  private boolean checkRep() {
+    return graph != null;
+    // TODO if possible, check if the graph's total degree is 0
+  }
+  
+  private String findBridge(String from, String to) {
+    Map<String, Integer> sources = graph.sources(to);
+    int maxWeight = 0;
+    String bridge = null;
+    for (String source : sources.keySet()) {
+      if (graph.targets(from).containsKey(source)) {
+        int weight = sources.get(source) + graph.targets(from).get(source);
+        if (weight > maxWeight) {
+          maxWeight = weight;
+          bridge = source;
+        }
+      }
+    }
+    
+    // Return the bridge word if it exists, otherwise return null.
+    // If more than one bridge exists and share the same weight, return the first one.
+    return bridge;
+  }
   
   /**
    * Generate a poem.
@@ -113,9 +136,34 @@ public class GraphPoet {
    * @return poem (as described above)
    */
   public String poem(String input) {
-    throw new RuntimeException("not implemented");
+    String[] words = input.split("\\s+");
+    // Maybe using StringBuilder is more efficient, and the StringBuilder is not
+    // available in any other classes. So it is safe to use it here.
+    StringBuilder poem = new StringBuilder();
+    boolean first = true;
+    String lastWord = null;
+    for (String word : words) {
+      poem.append(word);
+      String reserveCase = word;
+      word = word.toLowerCase();
+      if (first) {
+        first = false;
+      } else {
+        poem.append(' ');
+        String bridge = findBridge(lastWord, word);
+        if (bridge != null) {
+          poem.append(bridge).append(' ');
+        }
+      }
+      poem.append(reserveCase);
+      lastWord = word;
+    }
+    
+    return poem.toString();
   }
   
   // TODO toString()
-  
+  @Override public String toString() {
+    return super.toString();
+  }
 }
