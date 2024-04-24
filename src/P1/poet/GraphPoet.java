@@ -55,12 +55,15 @@ public class GraphPoet
   
   private final Graph<String> graph = Graph.empty();
   
-    // Abstraction function:
-  //   TODO
+  // Abstraction function:
+  //   The graph consists of vertices representing words and edges representing
+  //   the affinity.
   // Representation invariant:
-  //   TODO
+  //   The graph is non-null.
+  //   If possible, check if the graph's total degree is 0
   // Safety from rep exposure:
-  //   TODO
+  //   All the fields are private and final, and despite the mutability of graph,
+  //   we will never return it to any other class.
   
   /**
    * Create a new poet with the graph from corpus (as described above).
@@ -70,6 +73,9 @@ public class GraphPoet
    */
   public GraphPoet(File corpus) throws IOException
   {
+    Graph<String> graph = Graph.empty();
+    
+    
     throw new RuntimeException("not implemented");
   }
   
