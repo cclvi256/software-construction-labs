@@ -5,6 +5,7 @@ package P1.graph;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import org.junit.Test;
@@ -37,5 +38,18 @@ public class GraphStaticTest
   }
   
   // TODO test other vertex label types in Problem 3.2
-  
+  @Test
+  public void testEmptyVerticesEmptyString()
+  {
+    Graph<String> g = Graph.empty();
+    assertEquals("expected empty() graph to have no vertices",
+        Collections.emptySet(), g.vertices());
+  }
+  @Test
+  public void testEmptyVerticesEmptyDate()
+  {
+    Graph<LocalDateTime> g = Graph.empty();
+    assertEquals("expected empty() graph to have no vertices",
+        Collections.emptySet(), g.vertices());
+  }
 }
