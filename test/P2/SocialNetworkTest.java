@@ -205,8 +205,7 @@ public class SocialNetworkTest {
     
     graph.addVertex(tom);
     
-    assertThrows(Exception.class,
-        () -> graph.addVertex(tom));
+    assertFalse(graph.addVertex(tom));
   }
   
   @Test
