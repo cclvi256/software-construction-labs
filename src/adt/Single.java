@@ -3,6 +3,12 @@ package adt;
 import java.util.Set;
 
 public class Single<T> implements IDecorator<T> {
+  private IIntervalSet<T> delegate;
+  
+  public Single(IIntervalSet<T> delegate) {
+    this.delegate = delegate;
+  }
+  
   @Override
   public boolean insert(Interval<T> interval) {
     return false;

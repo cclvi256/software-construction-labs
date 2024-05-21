@@ -3,6 +3,11 @@ package adt;
 import java.util.Set;
 
 public class Full<T> implements IDecorator<T> {
+  private IIntervalSet<T> delegate;
+  
+  Full(IIntervalSet<T> delegate) {
+    this.delegate = delegate;
+  }
   @Override
   public boolean insert(Interval<T> interval) {
     return false;
