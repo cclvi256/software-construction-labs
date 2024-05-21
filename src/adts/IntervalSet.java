@@ -1,5 +1,5 @@
 package adts;
 
-public abstract class IntervalSet<T> implements IIntervalSet<T> {
+public class IntervalSet<T> implements IIntervalSet<T> {
 
 }
