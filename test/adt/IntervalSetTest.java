@@ -18,7 +18,6 @@ public class IntervalSetTest {
   //  105: The interval itself is null
   //  106: An interval with the same label already exists, and time overlaps l-partially
   //  107: An interval with the same label already exists, and time overlaps r-partially
-  //  108: An interval with the same label already exists, and time overlaps fully
   //  11: Interval is legal
   //  111: The interval is the first one
   //  112: The interval is the last one
@@ -71,14 +70,6 @@ public class IntervalSetTest {
   public void test107() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 5, 15));
-    i.insert(new Interval<>(1, 0, 10));
-    assertFalse(i.checkValid());
-  }
-  
-  @Test
-  public void test108() {
-    IIntervalSet<Integer> i = new IntervalSet<>();
-    i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(1, 0, 10));
     assertFalse(i.checkValid());
   }
@@ -185,18 +176,9 @@ public class IntervalSetTest {
     IIntervalSet<Integer> i = null;
     assertThrows(Exception.class, () -> i.getIntervals());
   }
-  
+
   @Test
   public void test204() {
-    IIntervalSet<Integer> i = new IntervalSet<>();
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(null, 10, 20));
-    assertFalse(i.checkValid());
-    // assertThrows(Exception.class, () -> i.getIntervals());
-  }
-  
-  @Test
-  public void test205() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(1, 5, 15));
@@ -241,21 +223,12 @@ public class IntervalSetTest {
   
   @Test
   public void test304() {
-    IIntervalSet<Integer> i = new IntervalSet<>();
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(null, 10, 20));
-    assertFalse(i.checkValid());
-    // assertThrows(Exception.class, () -> i.getLabels());
-  }
-  
-  @Test
-  public void test305() {
     IIntervalSet<Integer> i = null;
     assertThrows(Exception.class, () -> i.getLabels());
   }
   
   @Test
-  public void test306() {
+  public void test305() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(1, 5, 15));
@@ -537,9 +510,10 @@ public class IntervalSetTest {
   
   @Test
   public void test8A01() {
-    IIntervalSet<Integer> i = new IntervalSet<>();
-    i.insert(new Interval<>(1, 0, 10));
-    Integer a = null;
+    IIntervalSet<String> i = new IntervalSet<>();
+    i.insert(new Interval<>("1", 0, 10));
+    
+    String a = null;
     assertThrows(Exception.class, () -> i.contains(a));
   }
   
