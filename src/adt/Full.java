@@ -9,11 +9,13 @@ public class Full<T> implements IDecorator<T> {
   private IIntervalSet<T> delegate;
   private int begin;
   private int end;
+  private boolean confirmed;
   
   Full(IIntervalSet<T> delegate, int begin, int end) {
     this.delegate = delegate;
     this.begin = begin;
     this.end = end;
+    this.confirmed = false;
     
     if (begin >= end) {
       throw new RuntimeException();
@@ -24,6 +26,7 @@ public class Full<T> implements IDecorator<T> {
     this.delegate = delegate;
     this.begin = 0;
     this.end = -1;
+    this.confirmed = false;
   }
   @Override
   public boolean insert(Interval<T> interval) {
@@ -101,7 +104,18 @@ public class Full<T> implements IDecorator<T> {
   
   @Override
   public boolean confirm() {
-    return delegate.confirm();
+    delegate.confirm();
+    
+    if (!confirmed) {
+      if (checkValid()) {
+        confirmed = true;
+        return true;
+      } else {
+        return false;
+      }
+    }
+    
+    return true;
   }
 
   @Override
