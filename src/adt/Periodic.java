@@ -75,6 +75,11 @@ public class Periodic<T> implements IDecorator<T> {
   }
   
   @Override
+  public boolean confirm() {
+    return false;
+  }
+  
+  @Override
   public long end(Interval<T> interval) {
     return 0;
   }
