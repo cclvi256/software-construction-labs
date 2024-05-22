@@ -1,6 +1,6 @@
 package adt;
 
-public class Interval<T> {
+public class Interval<T> implements Comparable<Interval<T>> {
   private T label;
   private long begin;
   private long end;
@@ -52,5 +52,21 @@ public class Interval<T> {
     rev = 47 * rev + Long.hashCode(begin);
     rev = 47 * rev + Long.hashCode(end);
     return rev;
+  }
+  
+  @Override
+  public int compareTo(Interval<T> that) {
+    if (this.getBegin() < that.getBegin()) {
+      return -1;
+    } else if (this.getBegin() > that.getBegin()) {
+      return 1;
+    } else {
+      if (this.getEnd() < that.getEnd()) {
+        return -1;
+      } else if (this.getEnd() > that.getEnd()) {
+        return 1;
+      }
+    }
+    return 0;
   }
 }
