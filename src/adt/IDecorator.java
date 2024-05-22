@@ -19,15 +19,6 @@ public interface IDecorator<T> extends IIntervalSet<T> {
   Set<Interval<T>> findIntervals(T label);
   
   @Override
-  long begin(T label);
-  
-  @Override
-  long end(T label);
-  
-  @Override
-  long length(T label);
-  
-  @Override
   boolean isEmpty();
   
   @Override
@@ -44,12 +35,6 @@ public interface IDecorator<T> extends IIntervalSet<T> {
   
   @Override
   boolean confirm();
-  
-  @Override
-  long end(Interval<T> interval);
-  
-  @Override
-  long begin(Interval<T> interval);
   
   @Override
   boolean remove(Interval<T> interval);

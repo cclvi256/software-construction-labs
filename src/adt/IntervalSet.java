@@ -35,26 +35,6 @@ public class IntervalSet<T> implements IIntervalSet<T> {
   }
   
   @Override
-  public long begin(T label) {
-    return 0;
-  }
-  
-  @Override
-  public long begin(Interval<T> interval) {
-    return 0;
-  }
-  
-  @Override
-  public long end(T label) {
-    return 0;
-  }
-  
-  @Override
-  public long end(Interval<T> interval) {
-    return 0;
-  }
-  
-  @Override
   public boolean checkValid() {
     return false;
   }
@@ -62,11 +42,6 @@ public class IntervalSet<T> implements IIntervalSet<T> {
   @Override
   public boolean confirm() {
     return false;
-  }
-  
-  @Override
-  public long length(T label) {
-    return 0;
   }
   
   @Override

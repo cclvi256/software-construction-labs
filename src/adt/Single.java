@@ -33,22 +33,7 @@ public class Single<T> implements IDecorator<T> {
   public Set<Interval<T>> findIntervals(T label) {
     return Set.of();
   }
-  
-  @Override
-  public long begin(T label) {
-    return 0;
-  }
-  
-  @Override
-  public long end(T label) {
-    return 0;
-  }
-  
-  @Override
-  public long length(T label) {
-    return 0;
-  }
-  
+
   @Override
   public boolean isEmpty() {
     return false;
@@ -77,16 +62,6 @@ public class Single<T> implements IDecorator<T> {
   @Override
   public boolean confirm() {
     return false;
-  }
-  
-  @Override
-  public long end(Interval<T> interval) {
-    return 0;
-  }
-  
-  @Override
-  public long begin(Interval<T> interval) {
-    return 0;
   }
   
   @Override

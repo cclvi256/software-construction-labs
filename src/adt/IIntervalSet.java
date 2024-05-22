@@ -11,13 +11,8 @@ public interface IIntervalSet<T> {
   boolean remove(T label);
   boolean remove(Interval<T> interval);
   Set<Interval<T>> findIntervals(T label);
-  long begin(T label);
-  long begin(Interval<T> interval);
-  long end(T label);
-  long end(Interval<T> interval);
   boolean checkValid();
   boolean confirm();
-  long length(T label);
   long length(Interval<T> interval);
   boolean isEmpty();
   boolean contains(T label);
