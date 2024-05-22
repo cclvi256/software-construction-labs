@@ -10,7 +10,7 @@ public interface IIntervalSet<T> {
   Set<T> getLabels();
   boolean remove(T label);
   boolean remove(Interval<T> interval);
-  Set<T> findIntervals(T label);
+  Set<Interval<T>> findIntervals(T label);
   long begin(T label);
   long begin(Interval<T> interval);
   long end(T label);

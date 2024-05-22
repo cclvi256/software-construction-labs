@@ -30,7 +30,7 @@ public class IntervalSet<T> implements IIntervalSet<T> {
   }
   
   @Override
-  public Set<T> findIntervals(T label) {
+  public Set<Interval<T>> findIntervals(T label) {
     return Set.of();
   }
   

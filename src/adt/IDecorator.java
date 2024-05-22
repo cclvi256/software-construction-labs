@@ -16,7 +16,7 @@ public interface IDecorator<T> extends IIntervalSet<T> {
   boolean remove(T label);
   
   @Override
-  Set<T> findIntervals(T label);
+  Set<Interval<T>> findIntervals(T label);
   
   @Override
   long begin(T label);
