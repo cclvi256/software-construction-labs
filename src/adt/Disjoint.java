@@ -48,12 +48,7 @@ public class Disjoint<T> implements IDecorator<T> {
   public boolean contains(T label) {
     return false;
   }
-  
-  @Override
-  public long length(Interval<T> interval) {
-    return 0;
-  }
-  
+
   @Override
   public boolean checkValid() {
     return false;

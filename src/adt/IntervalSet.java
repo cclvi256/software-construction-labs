@@ -45,11 +45,6 @@ public class IntervalSet<T> implements IIntervalSet<T> {
   }
   
   @Override
-  public long length(Interval<T> interval) {
-    return 0;
-  }
-  
-  @Override
   public boolean isEmpty() {
     return false;
   }

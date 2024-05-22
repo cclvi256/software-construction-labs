@@ -28,9 +28,6 @@ public interface IDecorator<T> extends IIntervalSet<T> {
   boolean contains(T label);
   
   @Override
-  long length(Interval<T> interval);
-  
-  @Override
   boolean checkValid();
   
   @Override

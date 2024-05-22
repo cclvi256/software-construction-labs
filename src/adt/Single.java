@@ -50,11 +50,6 @@ public class Single<T> implements IDecorator<T> {
   }
   
   @Override
-  public long length(Interval<T> interval) {
-    return 0;
-  }
-  
-  @Override
   public boolean checkValid() {
     return false;
   }

@@ -13,7 +13,6 @@ public interface IIntervalSet<T> {
   Set<Interval<T>> findIntervals(T label);
   boolean checkValid();
   boolean confirm();
-  long length(Interval<T> interval);
   boolean isEmpty();
   boolean contains(T label);
   boolean contains(Interval<T> interval);
