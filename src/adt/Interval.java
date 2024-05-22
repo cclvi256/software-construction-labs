@@ -27,8 +27,12 @@ public class Interval<T> {
     return end - begin;
   }
   
-  public boolean isOverlap(Interval<T> that){
-    return this.end > that.begin || this.begin < that.end;
+  public boolean overlaps(Interval<T> that){
+    return this.begin < that.end && that.begin < this.end;
+  }
+  
+  public boolean legal() {
+    return this.begin < this.end;
   }
   
   @Override public boolean equals(Object that) {

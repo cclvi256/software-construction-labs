@@ -1,32 +1,29 @@
 package adt;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class IntervalSet<T> implements IIntervalSet<T> {
   private Set<Interval<T>> intervals;
-  private boolean valid;
+  private boolean confirmed;
   
   IntervalSet() {
     intervals = new HashSet<>();
-    valid = true;
+    confirmed = false;
   }
   
   @Override
   public boolean insert(Interval<T> interval) {
+    if (!interval.legal()) {
+      throw new RuntimeException();
+    }
+    
     for (Interval<T> i : intervals) {
       if (i.equals(interval)) {
-        return false;
-      }
-      
-      if (i.getLabel().equals(interval.getLabel())) {
-        if (i.isOverlap(interval)) {
-          valid = false;
-          break;
-        }
+        throw new RuntimeException();
       }
     }
     
+    confirmed = false;
     intervals.add(interval);
     return true;
   }
@@ -54,6 +51,7 @@ public class IntervalSet<T> implements IIntervalSet<T> {
     }
     
     for (Interval<T> i : toRemove) {
+      confirmed = false;
       intervals.remove(i);
     }
     
@@ -62,9 +60,94 @@ public class IntervalSet<T> implements IIntervalSet<T> {
   
   @Override
   public boolean remove(Interval<T> interval) {
+    if (interval == null || !interval.legal()) {
+      throw new RuntimeException();
+    }
+    
     for (Interval<T> i : intervals) {
       if (i.equals(interval)) {
+        confirmed = false;
         intervals.remove(i);
+        return true;
+      }
+    }
+    
+    throw new RuntimeException();
+  }
+  
+  @Override
+  public Set<Interval<T>> findIntervals(T label) {
+    if (label == null) {
+      throw new RuntimeException();
+    }
+    
+    Set<Interval<T>> rev = new HashSet<>();
+    
+    for (Interval<T> i : intervals) {
+      if (i.getLabel().equals(label)) {
+        rev.add(i);
+      }
+    }
+    
+    return rev;
+  }
+  
+  @Override
+  public boolean checkValid() {
+    Map<T, Integer> count = new HashMap<>();
+    
+    for (Interval<T> i : intervals) {
+      T label = i.getLabel();
+      if (count.containsKey(label)) {
+        count.put(label, count.get(label) + 1);
+      } else {
+        count.put(label, 1);
+      }
+    }
+    
+    for (T i : count.keySet()) {
+      if (count.get(i) > 1) {
+        Set<Interval<T>> duplicated = findIntervals(i);
+        for (Interval<T> j : duplicated) {
+          for (Interval<T> k : duplicated) {
+            if (!j.equals(k) && j.overlaps(k)) {
+              return false;
+            }
+          }
+        }
+      }
+    }
+    
+    return true;
+  }
+  
+  @Override
+  public boolean confirm() {
+    if (!confirmed) {
+      if (checkValid()) {
+        confirmed = true;
+        return true;
+      } else {
+        return false;
+      }
+    }
+    
+    return true;
+  }
+  
+  @Override
+  public boolean isEmpty() {
+    return intervals.isEmpty();
+  }
+  
+  @Override
+  public boolean contains(T label) {
+    if (label == null) {
+      throw new RuntimeException();
+    }
+    
+    for (Interval<T> i : intervals) {
+      if (i.getLabel().equals(label)) {
         return true;
       }
     }
@@ -73,32 +156,10 @@ public class IntervalSet<T> implements IIntervalSet<T> {
   }
   
   @Override
-  public Set<Interval<T>> findIntervals(T label) {
-    return Set.of();
-  }
-  
-  @Override
-  public boolean checkValid() {
-    return false;
-  }
-  
-  @Override
-  public boolean confirm() {
-    return false;
-  }
-  
-  @Override
-  public boolean isEmpty() {
-    return false;
-  }
-  
-  @Override
-  public boolean contains(T label) {
-    return false;
-  }
-  
-  @Override
   public boolean contains(Interval<T> interval) {
-    return false;
+    if (interval == null || !interval.legal()) {
+      throw new RuntimeException();
+    }
+    return intervals.contains(interval);
   }
 }
