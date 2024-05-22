@@ -429,10 +429,38 @@ public class IntervalSetTest {
   //  public Set<T> findIntervals(T label) {
   //    return Set.of();
   //  }
+  //  Test strategy:
+  //  501: The label is null
+  //  502: The label does not exist
+  //  503: The label exists, not repeated
+  //  504: The label exists, repeated
   
   @Test
   public void test501() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    Integer a = null;
+    assertThrows(Exception.class, () -> i.findIntervals(a));
+  }
   
+  @Test public void test502() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    assertTrue(i.findIntervals(2).isEmpty());
+  }
+  
+  @Test public void test503() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    assertTrue(i.findIntervals(1).contains(new Interval<>(1, 0, 10)));
+  }
+  
+  @Test public void test504() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(1, 5, 15));
+    assertTrue(i.findIntervals(1).contains(new Interval<>(1, 0, 10)));
+    assertTrue(i.findIntervals(1).contains(new Interval<>(1, 5, 15)));
   }
   
   //  @Override
