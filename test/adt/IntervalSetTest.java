@@ -223,13 +223,15 @@ public class IntervalSetTest {
     assertTrue(i.getLabels().isEmpty());
   }
   
-  @Test public void test302() {
+  @Test
+  public void test302() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     assertTrue(i.getLabels().contains(1));
   }
   
-  @Test public void test303() {
+  @Test
+  public void test303() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 10, 20));
@@ -237,7 +239,8 @@ public class IntervalSetTest {
     assertTrue(i.getLabels().contains(2));
   }
   
-  @Test public void test304() {
+  @Test
+  public void test304() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(null, 10, 20));
@@ -245,12 +248,14 @@ public class IntervalSetTest {
     // assertThrows(Exception.class, () -> i.getLabels());
   }
   
-  @Test public void test305() {
+  @Test
+  public void test305() {
     IIntervalSet<Integer> i = null;
     assertThrows(Exception.class, () -> i.getLabels());
   }
   
-  @Test public void test306() {
+  @Test
+  public void test306() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(1, 5, 15));
@@ -262,10 +267,73 @@ public class IntervalSetTest {
   //  public boolean remove(T label) {
   //    return false;
   //  }
+  //  Test strategy
+  //  4A0 The label is illegal
+  //  4A01 The label is null
+  //  4A02 The label not exists
+  //  4A1 The label exists
+  //  4A11 The label is not repeated
+  //  4A12 The label is not repeated, but overlaps with another interval
+  //  4A13 The label is repeated
+  //  4A14 The label is repeated, but overlaps with another interval
+  //  4A15 The label is repeated, but overlapping itself
   
   @Test
   public void test4A01() {
+    IIntervalSet<String> i = new IntervalSet<>();
+    i.insert(new Interval<>("1", 0, 10));
+    String a = null;
+    assertThrows(Exception.class, () -> i.remove(a));
+  }
   
+  @Test public void test4A02() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    // assertThrows(Exception.class, () -> i.remove(2));
+    // assertFalse(i.remove(2));
+    // TODO  Use the better one
+  }
+  
+  @Test public void test4A11() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    assertTrue(i.remove(1));
+    assertFalse(i.contains(1));
+  }
+  
+  @Test public void test4A12() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 5, 15));
+    assertTrue(i.remove(1));
+    assertFalse(i.contains(1));
+    assertTrue(i.contains(2));
+  }
+  
+  @Test public void test4A13() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(1, 5, 15));
+    assertTrue(i.remove(1));
+    assertFalse(i.contains(1));
+  }
+  
+  @Test public void test4A14() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(1, 14, 35));
+    i.insert(new Interval<>(2, 10, 20));
+    assertTrue(i.remove(1));
+    assertFalse(i.contains(1));
+    assertTrue(i.contains(2));
+  }
+  
+  @Test public void test4A15() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(1, 5, 15));
+    assertTrue(i.remove(1));
+    assertFalse(i.contains(1));
   }
   
   //  @Override
