@@ -1,6 +1,7 @@
 package adt;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class IntervalSetTest {
@@ -32,36 +33,50 @@ public class IntervalSetTest {
     IIntervalSet<Integer> i = new IntervalSet<>();
     assertThrows(Exception.class, () -> i.insert(new Interval<>(1, 1, 0)));
   }
-  @Test public void test102() {
+  
+  @Test
+  public void test102() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     assertThrows(Exception.class, () -> i.insert(new Interval<>(1, 0, 0)));
   }
-  @Test public void test103() {
+  
+  @Test
+  public void test103() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     assertThrows(Exception.class, () -> i.insert(new Interval<>(null, 0, 1)));
   }
-  @Test public void test104() {
+  
+  @Test
+  public void test104() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 1));
     assertThrows(Exception.class, () -> i.insert(new Interval<>(1, 0, 1)));
   }
-  @Test public void test105() {
+  
+  @Test
+  public void test105() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     assertThrows(Exception.class, () -> i.insert(null));
   }
-  @Test public void test106() {
+  
+  @Test
+  public void test106() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(1, 5, 15));
     assertFalse(i.checkValid());
   }
-  @Test public void test107() {
+  
+  @Test
+  public void test107() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 5, 15));
     i.insert(new Interval<>(1, 0, 10));
     assertFalse(i.checkValid());
   }
-  @Test public void test108() {
+  
+  @Test
+  public void test108() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(1, 0, 10));
@@ -75,20 +90,25 @@ public class IntervalSetTest {
   //  115: The interval overlaps l-partially with another with different label
   //  116: The interval overlaps r-partially with another with different label
   //  117: The interval overlaps fully with another with different label
-  @Test public void test111() {
+  @Test
+  public void test111() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     assertTrue(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(1, 0, 10)));
   }
-  @Test public void test112() {
+  
+  @Test
+  public void test112() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 10, 20));
     assertTrue(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(2, 10, 20)));
   }
-  @Test public void test113() {
+  
+  @Test
+  public void test113() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 5, 15));
@@ -96,7 +116,9 @@ public class IntervalSetTest {
     assertTrue(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(2, 5, 15)));
   }
-  @Test public void test114() {
+  
+  @Test
+  public void test114() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 10, 20));
@@ -104,21 +126,27 @@ public class IntervalSetTest {
     assertTrue(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(1, 20, 30)));
   }
-  @Test public void test115() {
+  
+  @Test
+  public void test115() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 5, 15));
     assertTrue(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(2, 5, 15)));
   }
-  @Test public void test116() {
+  
+  @Test
+  public void test116() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 15, 30));
     i.insert(new Interval<>(2, 10, 20));
     assertTrue(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(2, 10, 20)));
   }
-  @Test public void test117() {
+  
+  @Test
+  public void test117() {
     IIntervalSet<Integer> i = new IntervalSet<>();
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 0, 10));
@@ -130,16 +158,64 @@ public class IntervalSetTest {
   //  public Set<Interval<T>> getIntervals() {
   //    return Set.of();
   //  }
+  //  Test strategy:
+  //  201: The interval set is empty
+  //  202: The interval set is not empty
+  //  203: The interval set is null
+  //  204: Some of the labels is null
+  //  205: The interval set is illegal
   
   @Test
   public void test201() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    assertTrue(i.getIntervals().isEmpty());
+  }
   
+  @Test
+  public void test202() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 10, 20));
+    assertTrue(i.getIntervals().contains(new Interval<>(1, 0, 10)));
+    assertTrue(i.getIntervals().contains(new Interval<>(2, 10, 20)));
+  }
+  
+  @Test
+  public void test203() {
+    IIntervalSet<Integer> i = null;
+    assertThrows(Exception.class, () -> i.getIntervals());
+  }
+  
+  @Test
+  public void test204() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(null, 10, 20));
+    assertFalse(i.checkValid());
+    assertThrows(Exception.class, () -> i.getIntervals());
+  }
+  
+  @Test
+  public void test205() {
+    IIntervalSet<Integer> i = new IntervalSet<>();
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(1, 5, 15));
+    assertFalse(i.checkValid());
+    assertThrows(Exception.class, () -> i.getIntervals());
   }
   
   //  @Override
   //  public Set<T> getLabels() {
   //    return Set.of();
   //  }
+  //  Test strategy:
+  //  301: The interval set is empty
+  //  302: The interval set have only 1 label
+  //  303: The interval set have multiple labels
+  //  304: Some of the labels is null
+  //  305: The interval set is null
+  //  306: The interval set is illegal
+  
   
   @Test
   public void test301() {
