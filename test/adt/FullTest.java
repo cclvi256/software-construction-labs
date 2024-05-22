@@ -460,6 +460,7 @@ public class FullTest {
   //  Test strategy:
   //  601: The interval set is legal
   //  602: The intervals sharing the same label overlap
+  //  603: The interval set has blank
   
   @Test
   public void test601() {
@@ -474,6 +475,46 @@ public class FullTest {
     IIntervalSet<Integer> i = new Full<>(new IntervalSet<>());
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(1, 5, 15));
+    assertFalse(i.checkValid());
+  }
+  
+  @Test
+  public void test603() {
+    IIntervalSet<Integer> i = new Full<>(new IntervalSet<>(), 0, 20);
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 15, 20));
+    assertFalse(i.checkValid());
+  }
+  
+  @Test
+  public void test604() {
+    IIntervalSet<Integer> i = new Full<>(new IntervalSet<>(), 0, 20);
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 10, 20));
+    assertTrue(i.checkValid());
+  }
+  
+  @Test
+  public void test605() {
+    IIntervalSet<Integer> i = new Full<>(new IntervalSet<>());
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 12, 15));
+    assertFalse(i.checkValid());
+  }
+  
+  @Test
+  public void test606() {
+    IIntervalSet<Integer> i = new Full<>(new IntervalSet<>());
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 10, 20));
+    assertTrue(i.checkValid());
+  }
+  
+  @Test
+  public void test607() {
+    IIntervalSet<Integer> i = new Full<>(new IntervalSet<>(), 3, 7);
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 5, 15));
     assertFalse(i.checkValid());
   }
   
