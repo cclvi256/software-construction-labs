@@ -26,4 +26,27 @@ public class Interval<T> {
   public long getLength() {
     return end - begin;
   }
+  
+  public boolean isOverlap(Interval<T> that){
+    return this.end > that.begin || this.begin < that.end;
+  }
+  
+  @Override public boolean equals(Object that) {
+    if (!(that instanceof Interval)) {
+      return false;
+    }
+    
+    Interval<T> thatInterval = (Interval<T>) that;
+    return this.label.equals(thatInterval.label) &&
+           this.begin == thatInterval.begin &&
+           this.end == thatInterval.end;
+  }
+  
+  @Override public int hashCode() {
+    int rev = 17;
+    rev = 47 * rev + label.hashCode();
+    rev = 47 * rev + Long.hashCode(begin);
+    rev = 47 * rev + Long.hashCode(end);
+    return rev;
+  }
 }
