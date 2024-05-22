@@ -10,56 +10,56 @@ public class Full<T> implements IDecorator<T> {
   }
   @Override
   public boolean insert(Interval<T> interval) {
-    return false;
+    return delegate.insert(interval);
   }
   
   @Override
   public Set<Interval<T>> getIntervals() {
-    return Set.of();
+    return delegate.getIntervals();
   }
   
   @Override
   public Set<T> getLabels() {
-    return Set.of();
+    return delegate.getLabels();
   }
   
   @Override
   public boolean remove(T label) {
-    return false;
+    return delegate.remove(label);
   }
   
   @Override
   public Set<Interval<T>> findIntervals(T label) {
-    return Set.of();
+    return delegate.findIntervals(label);
   }
   
   @Override
   public boolean isEmpty() {
-    return false;
+    return delegate.isEmpty();
   }
   
   @Override
   public boolean contains(Interval<T> interval) {
-    return false;
+    return delegate.contains(interval);
   }
   
   @Override
   public boolean contains(T label) {
-    return false;
+    return delegate.contains(label);
   }
 
   @Override
   public boolean checkValid() {
-    return false;
+    return delegate.checkValid();
   }
   
   @Override
   public boolean confirm() {
-    return false;
+    return delegate.confirm();
   }
 
   @Override
   public boolean remove(Interval<T> interval) {
-    return false;
+    return delegate.remove(interval);
   }
 }
