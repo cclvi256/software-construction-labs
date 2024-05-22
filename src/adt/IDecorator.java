@@ -43,6 +43,9 @@ public interface IDecorator<T> extends IIntervalSet<T> {
   boolean checkValid();
   
   @Override
+  boolean confirm();
+  
+  @Override
   long end(Interval<T> interval);
   
   @Override

@@ -60,6 +60,11 @@ public class IntervalSet<T> implements IIntervalSet<T> {
   }
   
   @Override
+  public boolean confirm() {
+    return false;
+  }
+  
+  @Override
   public long length(T label) {
     return 0;
   }
