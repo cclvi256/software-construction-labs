@@ -18,11 +18,11 @@ public class SingleTest {
   //  105: The interval itself is null
   //  106: An interval with the same label already exists, and time overlaps l-partially
   //  107: An interval with the same label already exists, and time overlaps r-partially
+  //  114: The interval shares the same label, but the time does not overlap
   //  11: Interval is legal
   //  111: The interval is the first one
   //  112: The interval is the last one
   //  113: The interval is in the middle
-  //  114: The interval shares the same label, but the time does not overlap
   //  115: The interval overlaps l-partially with another with different label
   //  116: The interval overlaps r-partially with another with different label
   //  117: The interval overlaps fully with another with different label
@@ -56,22 +56,6 @@ public class SingleTest {
   public void test105() {
     IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
     assertThrows(Exception.class, () -> i.insert(null));
-  }
-  
-  @Test
-  public void test106() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 5, 15));
-    assertFalse(i.checkValid());
-  }
-  
-  @Test
-  public void test107() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 5, 15));
-    i.insert(new Interval<>(1, 0, 10));
-    assertFalse(i.checkValid());
   }
   
   //  111: The interval is the first one
@@ -113,9 +97,7 @@ public class SingleTest {
     IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 10, 20));
-    i.insert(new Interval<>(1, 20, 30));
-    assertTrue(i.checkValid());
-    assertTrue(i.getIntervals().contains(new Interval<>(1, 20, 30)));
+    assertThrows(Exception.class, () -> i.insert(new Interval<>(1, 15, 25)));
   }
   
   @Test
@@ -176,16 +158,7 @@ public class SingleTest {
     IIntervalSet<Integer> i = null;
     assertThrows(Exception.class, () -> i.getIntervals());
   }
-  
-  @Test
-  public void test204() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 5, 15));
-    assertFalse(i.checkValid());
-    // assertThrows(Exception.class, () -> i.getIntervals());
-  }
-  
+
   //  @Override
   //  public Set<T> getLabels() {
   //    return Set.of();
@@ -225,15 +198,6 @@ public class SingleTest {
   public void test304() {
     IIntervalSet<Integer> i = null;
     assertThrows(Exception.class, () -> i.getLabels());
-  }
-  
-  @Test
-  public void test305() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 5, 15));
-    assertFalse(i.checkValid());
-    // assertThrows(Exception.class, () -> i.getLabels());
   }
   
   //  @Override
@@ -284,35 +248,6 @@ public class SingleTest {
     assertTrue(i.remove(1));
     assertFalse(i.contains(1));
     assertTrue(i.contains(2));
-  }
-  
-  @Test
-  public void test4A13() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 5, 15));
-    assertTrue(i.remove(1));
-    assertFalse(i.contains(1));
-  }
-  
-  @Test
-  public void test4A14() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 14, 35));
-    i.insert(new Interval<>(2, 10, 20));
-    assertTrue(i.remove(1));
-    assertFalse(i.contains(1));
-    assertTrue(i.contains(2));
-  }
-  
-  @Test
-  public void test4A15() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 5, 15));
-    assertTrue(i.remove(1));
-    assertFalse(i.contains(1));
   }
   
   //  @Override
@@ -392,17 +327,6 @@ public class SingleTest {
   }
   
   @Test
-  public void test4B12() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(2, 5, 15));
-    i.insert(new Interval<>(2, 15, 20));
-    Interval<Integer> interval = new Interval<>(2, 15, 20);
-    assertTrue(i.remove(interval));
-    assertFalse(i.contains(interval));
-  }
-  
-  @Test
   public void test4B13() {
     IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
     i.insert(new Interval<>(1, 0, 10));
@@ -444,15 +368,6 @@ public class SingleTest {
     assertTrue(i.findIntervals(1).contains(new Interval<>(1, 0, 10)));
   }
   
-  @Test
-  public void test504() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 5, 15));
-    assertTrue(i.findIntervals(1).contains(new Interval<>(1, 0, 10)));
-    assertTrue(i.findIntervals(1).contains(new Interval<>(1, 5, 15)));
-  }
-  
   //  @Override
   //  public boolean checkValid() {
   //    return false;
@@ -467,14 +382,6 @@ public class SingleTest {
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 1, 20));
     assertTrue(i.checkValid());
-  }
-  
-  @Test
-  public void test602() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 5, 15));
-    assertFalse(i.checkValid());
   }
   
   //  @Override
@@ -530,15 +437,7 @@ public class SingleTest {
     i.insert(new Interval<>(1, 0, 10));
     assertTrue(i.contains(1));
   }
-  
-  @Test
-  public void test8A04() {
-    IIntervalSet<Integer> i = new Single<>(new IntervalSet<>());
-    i.insert(new Interval<>(1, 0, 10));
-    i.insert(new Interval<>(1, 5, 15));
-    assertTrue(i.contains(1));
-  }
-  
+
   //  @Override
   //  public boolean contains(Interval<T> interval) {
   //    return false;
