@@ -21,7 +21,7 @@ public class Periodic<T> implements IDecorator<T> {
   
   @Override
   public boolean insert(Interval<T> interval) {
-    return delegate.insert(interval);
+    return delegate.insert(normalize(interval));
   }
   
   @Override
@@ -51,7 +51,7 @@ public class Periodic<T> implements IDecorator<T> {
   
   @Override
   public boolean contains(Interval<T> interval) {
-    return delegate.contains(interval);
+    return delegate.contains(normalize(interval));
   }
   
   @Override
@@ -72,6 +72,24 @@ public class Periodic<T> implements IDecorator<T> {
   
   @Override
   public boolean remove(Interval<T> interval) {
-    return delegate.remove(interval);
+    return delegate.remove(normalize(interval));
+  }
+  
+  private Interval<T> normalize(Interval<T> interval) {
+    if (period == 0) {
+      return interval;
+    }
+    
+    if (interval.getLength() > period) {
+      throw new RuntimeException();
+    }
+    
+    if (interval.getLength() == period) {
+      return new Interval<>(interval.getLabel(), 0, period);
+    }
+    
+    return new Interval<>(interval.getLabel(),
+        interval.getBegin() % period,
+        interval.getBegin() % period + interval.getLength());
   }
 }
