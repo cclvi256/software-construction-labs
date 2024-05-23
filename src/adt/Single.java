@@ -4,6 +4,7 @@ import java.util.Set;
 
 public class Single<T> implements IDecorator<T> {
   private IIntervalSet<T> delegate;
+  boolean confirmed;
   
   public Single(IIntervalSet<T> delegate) {
     this.delegate = delegate;
@@ -11,6 +12,10 @@ public class Single<T> implements IDecorator<T> {
   
   @Override
   public boolean insert(Interval<T> interval) {
+    if(delegate.getLabels().contains(interval.getLabel())) {
+      throw new RuntimeException();
+    }
+    
     return delegate.insert(interval);
   }
   
@@ -56,7 +61,8 @@ public class Single<T> implements IDecorator<T> {
   
   @Override
   public boolean confirm() {
-    return delegate.confirm();
+    confirmed = delegate.confirm();
+    return confirmed;
   }
   
   @Override
