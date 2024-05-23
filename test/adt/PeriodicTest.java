@@ -145,6 +145,40 @@ public class PeriodicTest {
     assertTrue(i.getIntervals().contains(new Interval<>(2, 0, 10)));
   }
   
+  // 121: The interval's start is out of period
+  // 122: The interval's end is out of period
+  // 123: The interval's length is out of period
+  // 124: Normal
+  
+  @Test public void test121() {
+    IIntervalSet<Integer> i = new Periodic<>(new IntervalSet<>(), 10);
+    i.insert(new Interval<>(1, 12, 14));
+    assertTrue(i.contains(new Interval<>(1, 2, 4)));
+    assertTrue(i.contains(new Interval<>(1, 12, 14)));
+    assertTrue(i.contains(new Interval<>(1, 22, 24)));
+  }
+  
+  @Test public void test122() {
+    IIntervalSet<Integer> i = new Periodic<>(new IntervalSet<>(), 10);
+    i.insert(new Interval<>(1, 8, 14));
+    assertTrue(i.contains(new Interval<>(1, 8, 14)));
+    assertTrue(i.contains(new Interval<>(1, 18, 24)));
+    assertTrue(i.contains(new Interval<>(1, 28, 34)));
+  }
+  
+  @Test public void test123() {
+    IIntervalSet<Integer> i = new Periodic<>(new IntervalSet<>(), 10);
+    assertThrows(Exception.class, () -> i.insert(new Interval<>(1, 8, 26)));
+  }
+  
+  @Test public void test124() {
+    IIntervalSet<Integer> i = new Periodic<>(new IntervalSet<>(), 10);
+    i.insert(new Interval<>(1, 2, 4));
+    assertTrue(i.contains(new Interval<>(1, 2, 4)));
+    assertTrue(i.contains(new Interval<>(1, 12, 14)));
+    assertTrue(i.contains(new Interval<>(1, 22, 24)));
+  }
+  
   //  @Override
   //  public Set<Interval<T>> getIntervals() {
   //    return Set.of();
