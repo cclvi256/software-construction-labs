@@ -6,7 +6,7 @@ public class IntervalSet<T> implements IIntervalSet<T> {
   private Set<Interval<T>> intervals;
   private boolean confirmed;
   
-  IntervalSet() {
+  public IntervalSet() {
     intervals = new HashSet<>();
     confirmed = false;
   }

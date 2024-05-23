@@ -5,7 +5,7 @@ public class Interval<T> implements Comparable<Interval<T>> {
   private long begin;
   private long end;
   
-  Interval(T label, long begin, long end) {
+  public Interval(T label, long begin, long end) {
     this.label = label;
     this.begin = begin;
     this.end = end;

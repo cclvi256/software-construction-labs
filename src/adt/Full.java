@@ -7,11 +7,11 @@ import java.util.Set;
 
 public class Full<T> implements IDecorator<T> {
   private IIntervalSet<T> delegate;
-  private int begin;
-  private int end;
+  private long begin;
+  private long end;
   private boolean confirmed;
   
-  Full(IIntervalSet<T> delegate, int begin, int end) {
+  public Full(IIntervalSet<T> delegate, long begin, long end) {
     this.delegate = delegate;
     this.begin = begin;
     this.end = end;
@@ -22,7 +22,7 @@ public class Full<T> implements IDecorator<T> {
     }
   }
   
-  Full(IIntervalSet<T> delegate) {
+  public Full(IIntervalSet<T> delegate) {
     this.delegate = delegate;
     this.begin = 0;
     this.end = -1;
