@@ -4,6 +4,7 @@ import java.util.Set;
 
 public class Disjoint<T> implements IDecorator<T> {
   private IIntervalSet<T> delegate;
+  private boolean confirmed;
   
   public Disjoint(IIntervalSet<T> delegate) {
     this.delegate = delegate;
@@ -51,12 +52,36 @@ public class Disjoint<T> implements IDecorator<T> {
   
   @Override
   public boolean checkValid() {
-    return delegate.checkValid();
+    if (delegate.checkValid()) {
+      Set<Interval<T>> intervals = getIntervals();
+      for (Interval<T> i : intervals) {
+        for (Interval<T> j : intervals) {
+          if (i != j && i.overlaps(j)) {
+            return false;
+          }
+        }
+      }
+      
+      return true;
+    }
+    
+    return false;
   }
   
   @Override
   public boolean confirm() {
-    return delegate.confirm();
+    if (delegate.confirm()) {
+      if (checkValid()) {
+        confirmed = true;
+        return true;
+      } else {
+        confirmed = false;
+        return false;
+      }
+    }
+    
+    confirmed = false;
+    return false;
   }
   
   @Override
