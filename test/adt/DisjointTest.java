@@ -104,7 +104,7 @@ public class DisjointTest {
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 5, 15));
     i.insert(new Interval<>(3, 10, 20));
-    assertTrue(i.checkValid());
+    assertFalse(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(2, 5, 15)));
   }
   
@@ -123,7 +123,7 @@ public class DisjointTest {
     IIntervalSet<Integer> i = new Disjoint<>(new IntervalSet<>());
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 5, 15));
-    assertTrue(i.checkValid());
+    assertFalse(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(2, 5, 15)));
   }
   
@@ -132,7 +132,7 @@ public class DisjointTest {
     IIntervalSet<Integer> i = new Disjoint<>(new IntervalSet<>());
     i.insert(new Interval<>(1, 15, 30));
     i.insert(new Interval<>(2, 10, 20));
-    assertTrue(i.checkValid());
+    assertFalse(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(2, 10, 20)));
   }
   
@@ -141,7 +141,7 @@ public class DisjointTest {
     IIntervalSet<Integer> i = new Disjoint<>(new IntervalSet<>());
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 0, 10));
-    assertTrue(i.checkValid());
+    assertFalse(i.checkValid());
     assertTrue(i.getIntervals().contains(new Interval<>(2, 0, 10)));
   }
   
@@ -466,7 +466,7 @@ public class DisjointTest {
     IIntervalSet<Integer> i = new Disjoint<>(new IntervalSet<>());
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(2, 1, 20));
-    assertTrue(i.checkValid());
+    assertFalse(i.checkValid());
   }
   
   @Test
@@ -475,6 +475,21 @@ public class DisjointTest {
     i.insert(new Interval<>(1, 0, 10));
     i.insert(new Interval<>(1, 5, 15));
     assertFalse(i.checkValid());
+  }
+  
+  @Test public void test603() {
+    IIntervalSet<Integer> i = new Disjoint<>(new IntervalSet<>());
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 5, 15));
+    i.insert(new Interval<>(3, 10, 20));
+    assertFalse(i.checkValid());
+  }
+  
+  @Test public void test604() {
+    IIntervalSet<Integer> i = new Disjoint<>(new IntervalSet<>());
+    i.insert(new Interval<>(1, 0, 10));
+    i.insert(new Interval<>(2, 16, 20));
+    assertTrue(i.checkValid());
   }
   
   //  @Override
